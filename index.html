@@ -6,44 +6,43 @@
 <title>Coupe du Monde 2026 — Mon Tableau</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-serif;color:#fff;}
-.root{padding:28px 20px 40px;}
+.root{padding:28px 20px 40px;max-width:1400px;margin:0 auto;}
 
-/* HEADER */
 .hdr{text-align:center;margin-bottom:22px;}
 .hdr h1{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;letter-spacing:6px;color:#f0c84a;text-transform:uppercase;}
 .hdr h2{font-family:'Oswald',sans-serif;font-size:14px;font-weight:300;letter-spacing:9px;color:rgba(255,255,255,0.4);margin-top:5px;}
 .hdr-bar{display:flex;justify-content:center;gap:16px;margin-top:10px;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.3);text-transform:uppercase;flex-wrap:wrap;}
 .hdr-dot{width:3px;height:3px;background:#c49e2b;border-radius:50%;align-self:center;}
 
-/* SHARE BANNER */
-.share-box{background:rgba(240,200,74,0.08);border:1px solid rgba(240,200,74,0.25);border-radius:8px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.share-box p{font-size:12px;color:rgba(255,255,255,0.6);flex:1;min-width:160px;letter-spacing:0.3px;}
-.share-box p strong{color:#f0c84a;}
-.share-url{background:rgba(0,0,0,0.3);border:0.5px solid rgba(255,255,255,0.15);border-radius:5px;padding:6px 10px;font-size:10px;color:rgba(255,255,255,0.5);font-family:monospace;flex:2;min-width:200px;word-break:break-all;}
-.btn-share{background:#f0c84a;color:#0a1628;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:5px;padding:8px 16px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.btn-share:hover{background:#f5d56a;}
-.btn-share.copied{background:#4caf50;color:#fff;}
+.action-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.btn{background:transparent;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:5px;cursor:pointer;transition:all 0.2s;}
+.btn:hover{border-color:rgba(240,200,74,0.5);color:#f0c84a;background:rgba(240,200,74,0.05);}
+.btn.primary{background:#f0c84a;color:#0a1628;border-color:#f0c84a;}
+.btn.primary:hover{background:#f5d56a;color:#0a1628;}
+.btn.copied{background:#4caf50;border-color:#4caf50;color:#fff;}
 
-/* SECTION TITLE */
+.share-box{background:rgba(240,200,74,0.06);border:1px solid rgba(240,200,74,0.2);border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.share-box p{font-size:11px;color:rgba(255,255,255,0.5);flex:1;min-width:140px;letter-spacing:0.3px;}
+.share-box p strong{color:#f0c84a;}
+.share-url{background:rgba(0,0,0,0.3);border:0.5px solid rgba(255,255,255,0.15);border-radius:4px;padding:5px 8px;font-size:9.5px;color:rgba(255,255,255,0.5);font-family:monospace;flex:2;min-width:180px;word-break:break-all;}
+
 .sec-title{font-family:'Oswald',sans-serif;font-size:11px;font-weight:400;letter-spacing:5px;color:rgba(255,255,255,0.3);text-align:center;margin:18px 0 14px;text-transform:uppercase;}
 .sec-title::before,.sec-title::after{content:'';display:inline-block;width:30px;height:1px;background:rgba(255,255,255,0.15);vertical-align:middle;margin:0 10px;}
 
-/* LEGEND */
 .legend{display:flex;gap:16px;justify-content:center;font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:16px;flex-wrap:wrap;letter-spacing:0.5px;}
 .leg-item{display:flex;align-items:center;gap:5px;}
 .leg-dot{width:9px;height:9px;border-radius:50%;}
 .leg-dot.green{background:#4caf50;}
 .leg-dot.yellow{background:#f0c84a;}
 
-/* GROUPS GRID */
 .groups-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
 @media(max-width:900px){.groups-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:500px){.groups-grid{grid-template-columns:1fr;}}
 
-/* GROUP CARD */
 .gcard{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:7px;overflow:hidden;}
 .gcard.france{border-color:rgba(0,90,200,0.5);background:rgba(0,40,120,0.15);}
 .ghead{background:rgba(196,158,43,0.12);border-bottom:1px solid rgba(196,158,43,0.25);padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
@@ -52,7 +51,6 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 .gcard.france .gletter{color:#6eb3ff;}
 .gbadge{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.25);text-transform:uppercase;}
 
-/* MATCHES */
 .gmatches{padding:4px 0;}
 .gmatch{display:flex;align-items:center;gap:3px;padding:3px 8px;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:9px;}
 .gmatch:last-child{border-bottom:none;}
@@ -67,26 +65,23 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 .sdiv{font-size:10px;color:rgba(255,255,255,0.3);padding:0 1px;}
 .mtime{font-size:8px;color:rgba(255,255,255,0.25);min-width:26px;text-align:right;letter-spacing:0.3px;}
 
-/* STANDINGS */
 .standing{margin-top:2px;border-top:1px solid rgba(255,255,255,0.07);}
 .sth{display:grid;grid-template-columns:14px 1fr 18px 18px 18px 18px 20px 24px;gap:2px;padding:3px 8px;font-size:8px;color:rgba(255,255,255,0.22);letter-spacing:0.5px;text-transform:uppercase;align-items:center;}
 .sth span:nth-child(n+3){text-align:center;}
-.srow{display:grid;grid-template-columns:14px 1fr 18px 18px 18px 18px 20px 24px;gap:2px;padding:4px 8px;font-size:9px;align-items:center;border-top:0.5px solid rgba(255,255,255,0.04);transition:background 0.2s;}
+.srow{display:grid;grid-template-columns:14px 1fr 18px 18px 18px 18px 20px 24px;gap:2px;padding:4px 8px;font-size:9px;align-items:center;border-top:0.5px solid rgba(255,255,255,0.04);transition:background 0.2s;cursor:pointer;}
+.srow:hover{background:rgba(255,255,255,0.04);}
 .srow.q{background:rgba(0,180,80,0.07);}
+.srow.q:hover{background:rgba(0,180,80,0.12);}
 .srow.q3{background:rgba(240,200,74,0.05);}
+.srow.q3:hover{background:rgba(240,200,74,0.1);}
 .srank{font-size:8px;color:rgba(255,255,255,0.3);text-align:center;}
 .srank.r1,.srank.r2{color:#4caf50;font-weight:700;}
 .srank.r3{color:#f0c84a;}
-.steam{font-size:8.5px;text-transform:uppercase;letter-spacing:0.4px;color:rgba(255,255,255,0.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.steam{font-size:8.5px;text-transform:uppercase;letter-spacing:0.4px;color:rgba(255,255,255,0.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.15);text-underline-offset:2px;}
 .steam.fr{color:#6eb3ff;font-weight:700;}
 .sval{text-align:center;font-size:9px;color:rgba(255,255,255,0.55);}
 .spts{text-align:center;font-size:10px;font-weight:700;color:#f0c84a;}
 
-/* RESET BUTTON */
-.btn-reset{background:transparent;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:5px;cursor:pointer;margin:0 auto 0;display:block;font-family:'Roboto Condensed',sans-serif;transition:all 0.2s;}
-.btn-reset:hover{border-color:rgba(240,200,74,0.4);color:#f0c84a;}
-
-/* KNOCKOUT SECTION */
 .ko-section{margin-top:28px;}
 .rounds-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
 @media(max-width:700px){.rounds-grid{grid-template-columns:1fr 1fr;}}
@@ -102,12 +97,36 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 .trophy-text{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#f0c84a;text-align:center;text-transform:uppercase;line-height:1.4;}
 .trophy-date{font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.25);text-transform:uppercase;text-align:center;}
 
-/* FOOTER */
 .footer{text-align:center;margin-top:30px;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.15);text-transform:uppercase;}
+
+/* MODAL — squad viewer */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.show{display:flex;}
+.modal{background:#0d1f3c;border:1px solid rgba(240,200,74,0.3);border-radius:10px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#0d1f3c;z-index:1;}
+.modal-flag{font-size:32px;line-height:1;}
+.modal-title{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:3px;color:#f0c84a;text-transform:uppercase;flex:1;margin-left:12px;}
+.modal-sub{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.4);text-transform:uppercase;}
+.modal-close{background:transparent;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{border-color:#f0c84a;color:#f0c84a;}
+.modal-body{padding:18px 22px;}
+.squad-sec{margin-bottom:18px;}
+.squad-sec h3{font-family:'Oswald',sans-serif;font-size:11px;font-weight:500;letter-spacing:3px;color:#c49e2b;text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid rgba(196,158,43,0.2);}
+.squad-list{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;}
+@media(max-width:500px){.squad-list{grid-template-columns:1fr;}}
+.squad-item{font-size:12px;padding:5px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);display:flex;align-items:baseline;gap:8px;}
+.squad-name{color:rgba(255,255,255,0.85);flex:1;letter-spacing:0.3px;}
+.squad-club{color:rgba(255,255,255,0.35);font-size:10px;font-style:italic;}
+.squad-note{background:rgba(240,200,74,0.06);border-left:2px solid rgba(240,200,74,0.4);padding:10px 12px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.3px;line-height:1.5;}
+.squad-note strong{color:#f0c84a;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#4caf50;color:#fff;padding:10px 20px;border-radius:6px;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;z-index:2000;opacity:0;transition:opacity 0.3s;pointer-events:none;}
+.toast.show{opacity:1;}
 </style>
 </head>
 <body>
-<div class="root">
+<div class="root" id="capture-root">
 
   <div class="hdr">
     <h1>FIFA World Cup 2026</h1>
@@ -121,21 +140,28 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
     </div>
   </div>
 
+  <div class="action-bar" id="actions">
+    <button class="btn primary" onclick="copyLink()" id="btn-copy">🔗 Copier le lien</button>
+    <button class="btn" onclick="downloadPNG()">📷 Télécharger en PNG</button>
+    <button class="btn" onclick="downloadJSON()">💾 Sauvegarder (JSON)</button>
+    <button class="btn" onclick="document.getElementById('import-file').click()">📂 Importer</button>
+    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+    <button class="btn" onclick="resetAll()">↺ Réinitialiser</button>
+  </div>
+
   <div class="share-box">
-    <p><strong>Partage ton tableau !</strong> Remplis les scores, puis copie le lien — tous tes résultats sont encodés dans l'URL.</p>
-    <span class="share-url" id="share-url">Génère un lien en saisissant des scores…</span>
-    <button class="btn-share" id="btn-share" onclick="copyLink()">📋 Copier le lien</button>
+    <p><strong>Astuce :</strong> les scores sont encodés dans l'URL — copie-la pour partager.</p>
+    <span class="share-url" id="share-url">Saisis des scores pour générer un lien…</span>
   </div>
 
   <div class="legend">
     <div class="leg-item"><div class="leg-dot green"></div><span>Qualifiés directs (2 premiers)</span></div>
     <div class="leg-item"><div class="leg-dot yellow"></div><span>3e — possible qualifié</span></div>
+    <div class="leg-item"><span style="color:rgba(255,255,255,0.4);">💡 Clique sur une équipe pour voir l'effectif</span></div>
   </div>
 
   <div class="sec-title">Phase de groupes — 11 au 27 juin</div>
   <div class="groups-grid" id="groups-grid"></div>
-
-  <button class="btn-reset" onclick="resetAll()">↺ Réinitialiser tous les scores</button>
 
   <div class="ko-section">
     <div class="sec-title">Phase à élimination directe</div>
@@ -186,46 +212,321 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
   <div class="footer">FIFA World Cup 2026 · USA · Canada · México · 48 nations · 104 matchs</div>
 </div>
 
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hdr">
+      <span class="modal-flag" id="modal-flag"></span>
+      <div style="flex:1">
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-sub" id="modal-sub">Effectif Coupe du Monde 2026</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 const GROUPS = [
-  {id:'A',teams:[{f:'🇲🇽',n:'Mexique'},{f:'🇿🇦',n:'Afrique du Sud'},{f:'🇰🇷',n:'Corée du Sud'},{f:'🇨🇿',n:'Tchéquie'}],
+  {id:'A',teams:[{f:'🇲🇽',n:'Mexique',k:'mex'},{f:'🇿🇦',n:'Afrique du Sud',k:'rsa'},{f:'🇰🇷',n:'Corée du Sud',k:'kor'},{f:'🇨🇿',n:'Tchéquie',k:'cze'}],
    matches:[{d:'11 Juin',h:'21h',t1:0,t2:1},{d:'12 Juin',h:'04h',t1:2,t2:3},{d:'18 Juin',h:'18h',t1:3,t2:1},{d:'19 Juin',h:'03h',t1:0,t2:2},{d:'25 Juin',h:'03h',t1:3,t2:0},{d:'25 Juin',h:'03h',t1:1,t2:2}]},
-  {id:'B',teams:[{f:'🇨🇦',n:'Canada'},{f:'🇧🇦',n:'Bosnie-Herz.'},{f:'🇶🇦',n:'Qatar'},{f:'🇨🇭',n:'Suisse'}],
+  {id:'B',teams:[{f:'🇨🇦',n:'Canada',k:'can'},{f:'🇧🇦',n:'Bosnie-Herz.',k:'bih'},{f:'🇶🇦',n:'Qatar',k:'qat'},{f:'🇨🇭',n:'Suisse',k:'sui'}],
    matches:[{d:'12 Juin',h:'21h',t1:0,t2:1},{d:'13 Juin',h:'21h',t1:2,t2:3},{d:'18 Juin',h:'21h',t1:3,t2:1},{d:'19 Juin',h:'00h',t1:0,t2:2},{d:'24 Juin',h:'21h',t1:3,t2:0},{d:'24 Juin',h:'21h',t1:1,t2:2}]},
-  {id:'C',teams:[{f:'🇧🇷',n:'Brésil'},{f:'🇲🇦',n:'Maroc'},{f:'🇭🇹',n:'Haïti'},{f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Écosse'}],
+  {id:'C',teams:[{f:'🇧🇷',n:'Brésil',k:'bra'},{f:'🇲🇦',n:'Maroc',k:'mar'},{f:'🇭🇹',n:'Haïti',k:'hai'},{f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Écosse',k:'sco'}],
    matches:[{d:'14 Juin',h:'00h',t1:0,t2:1},{d:'14 Juin',h:'03h',t1:2,t2:3},{d:'20 Juin',h:'00h',t1:3,t2:1},{d:'20 Juin',h:'03h',t1:0,t2:2},{d:'25 Juin',h:'00h',t1:3,t2:0},{d:'25 Juin',h:'00h',t1:1,t2:2}]},
-  {id:'D',teams:[{f:'🇺🇸',n:'États-Unis'},{f:'🇵🇾',n:'Paraguay'},{f:'🇦🇺',n:'Australie'},{f:'🇹🇷',n:'Turquie'}],
+  {id:'D',teams:[{f:'🇺🇸',n:'États-Unis',k:'usa'},{f:'🇵🇾',n:'Paraguay',k:'par'},{f:'🇦🇺',n:'Australie',k:'aus'},{f:'🇹🇷',n:'Turquie',k:'tur'}],
    matches:[{d:'13 Juin',h:'03h',t1:0,t2:1},{d:'14 Juin',h:'06h',t1:2,t2:3},{d:'19 Juin',h:'06h',t1:3,t2:1},{d:'19 Juin',h:'21h',t1:0,t2:2},{d:'26 Juin',h:'04h',t1:3,t2:0},{d:'26 Juin',h:'04h',t1:1,t2:2}]},
-  {id:'E',teams:[{f:'🇩🇪',n:'Allemagne'},{f:'🇨🇼',n:'Curaçao'},{f:'🇨🇮',n:"Côte d'Ivoire"},{f:'🇪🇨',n:'Équateur'}],
+  {id:'E',teams:[{f:'🇩🇪',n:'Allemagne',k:'ger'},{f:'🇨🇼',n:'Curaçao',k:'cur'},{f:'🇨🇮',n:"Côte d'Ivoire",k:'civ'},{f:'🇪🇨',n:'Équateur',k:'ecu'}],
    matches:[{d:'14 Juin',h:'19h',t1:0,t2:1},{d:'14 Juin',h:'01h',t1:2,t2:3},{d:'20 Juin',h:'22h',t1:0,t2:2},{d:'20 Juin',h:'22h',t1:1,t2:3},{d:'25 Juin',h:'22h',t1:0,t2:3},{d:'25 Juin',h:'22h',t1:1,t2:2}]},
-  {id:'F',teams:[{f:'🇳🇱',n:'Pays-Bas'},{f:'🇯🇵',n:'Japon'},{f:'🇸🇪',n:'Suède'},{f:'🇹🇳',n:'Tunisie'}],
+  {id:'F',teams:[{f:'🇳🇱',n:'Pays-Bas',k:'ned'},{f:'🇯🇵',n:'Japon',k:'jpn'},{f:'🇸🇪',n:'Suède',k:'swe'},{f:'🇹🇳',n:'Tunisie',k:'tun'}],
    matches:[{d:'14 Juin',h:'22h',t1:0,t2:1},{d:'15 Juin',h:'04h',t1:2,t2:3},{d:'20 Juin',h:'19h',t1:0,t2:2},{d:'20 Juin',h:'19h',t1:1,t2:3},{d:'26 Juin',h:'01h',t1:0,t2:3},{d:'26 Juin',h:'01h',t1:1,t2:2}]},
-  {id:'G',teams:[{f:'🇧🇪',n:'Belgique'},{f:'🇪🇬',n:'Égypte'},{f:'🇮🇷',n:'Iran'},{f:'🇳🇿',n:'Nouv.-Zélande'}],
+  {id:'G',teams:[{f:'🇧🇪',n:'Belgique',k:'bel'},{f:'🇪🇬',n:'Égypte',k:'egy'},{f:'🇮🇷',n:'Iran',k:'irn'},{f:'🇳🇿',n:'Nouv.-Zélande',k:'nzl'}],
    matches:[{d:'15 Juin',h:'21h',t1:0,t2:1},{d:'16 Juin',h:'05h',t1:2,t2:3},{d:'21 Juin',h:'21h',t1:0,t2:2},{d:'21 Juin',h:'21h',t1:1,t2:3},{d:'27 Juin',h:'05h',t1:0,t2:3},{d:'27 Juin',h:'05h',t1:1,t2:2}]},
-  {id:'H',teams:[{f:'🇪🇸',n:'Espagne'},{f:'🇨🇻',n:'Cap-Vert'},{f:'🇸🇦',n:'Arabie Saoudite'},{f:'🇺🇾',n:'Uruguay'}],
+  {id:'H',teams:[{f:'🇪🇸',n:'Espagne',k:'esp'},{f:'🇨🇻',n:'Cap-Vert',k:'cpv'},{f:'🇸🇦',n:'Arabie Saoudite',k:'ksa'},{f:'🇺🇾',n:'Uruguay',k:'uru'}],
    matches:[{d:'15 Juin',h:'18h',t1:0,t2:1},{d:'15 Juin',h:'18h',t1:2,t2:3},{d:'21 Juin',h:'18h',t1:0,t2:2},{d:'21 Juin',h:'18h',t1:1,t2:3},{d:'27 Juin',h:'02h',t1:0,t2:3},{d:'27 Juin',h:'02h',t1:1,t2:2}]},
-  {id:'I',teams:[{f:'🇫🇷',n:'France',fr:true},{f:'🇸🇳',n:'Sénégal'},{f:'🇮🇶',n:'Irak'},{f:'🇳🇴',n:'Norvège'}],
+  {id:'I',teams:[{f:'🇫🇷',n:'France',k:'fra',fr:true},{f:'🇸🇳',n:'Sénégal',k:'sen'},{f:'🇮🇶',n:'Irak',k:'irq'},{f:'🇳🇴',n:'Norvège',k:'nor'}],
    matches:[{d:'16 Juin',h:'21h',t1:0,t2:1},{d:'17 Juin',h:'00h',t1:2,t2:3},{d:'22 Juin',h:'23h',t1:0,t2:2},{d:'23 Juin',h:'02h',t1:1,t2:3},{d:'26 Juin',h:'21h',t1:3,t2:0},{d:'26 Juin',h:'21h',t1:1,t2:2}]},
-  {id:'J',teams:[{f:'🇦🇷',n:'Argentine'},{f:'🇩🇿',n:'Algérie'},{f:'🇦🇹',n:'Autriche'},{f:'🇯🇴',n:'Jordanie'}],
+  {id:'J',teams:[{f:'🇦🇷',n:'Argentine',k:'arg'},{f:'🇩🇿',n:'Algérie',k:'alg'},{f:'🇦🇹',n:'Autriche',k:'aut'},{f:'🇯🇴',n:'Jordanie',k:'jor'}],
    matches:[{d:'15 Juin',h:'21h',t1:0,t2:1},{d:'17 Juin',h:'06h',t1:2,t2:3},{d:'22 Juin',h:'19h',t1:0,t2:2},{d:'22 Juin',h:'19h',t1:1,t2:3},{d:'28 Juin',h:'04h',t1:0,t2:3},{d:'28 Juin',h:'04h',t1:1,t2:2}]},
-  {id:'K',teams:[{f:'🇵🇹',n:'Portugal'},{f:'🇨🇩',n:'RD Congo'},{f:'🇺🇿',n:'Ouzbékistan'},{f:'🇨🇴',n:'Colombie'}],
+  {id:'K',teams:[{f:'🇵🇹',n:'Portugal',k:'por'},{f:'🇨🇩',n:'RD Congo',k:'cod'},{f:'🇺🇿',n:'Ouzbékistan',k:'uzb'},{f:'🇨🇴',n:'Colombie',k:'col'}],
    matches:[{d:'17 Juin',h:'19h',t1:0,t2:1},{d:'17 Juin',h:'19h',t1:2,t2:3},{d:'23 Juin',h:'19h',t1:0,t2:2},{d:'23 Juin',h:'19h',t1:1,t2:3},{d:'28 Juin',h:'01h30',t1:0,t2:3},{d:'28 Juin',h:'01h30',t1:1,t2:2}]},
-  {id:'L',teams:[{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'Angleterre'},{f:'🇭🇷',n:'Croatie'},{f:'🇬🇭',n:'Ghana'},{f:'🇵🇦',n:'Panama'}],
+  {id:'L',teams:[{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'Angleterre',k:'eng'},{f:'🇭🇷',n:'Croatie',k:'cro'},{f:'🇬🇭',n:'Ghana',k:'gha'},{f:'🇵🇦',n:'Panama',k:'pan'}],
    matches:[{d:'17 Juin',h:'22h',t1:0,t2:1},{d:'18 Juin',h:'22h',t1:2,t2:3},{d:'23 Juin',h:'22h',t1:0,t2:2},{d:'24 Juin',h:'01h',t1:1,t2:3},{d:'27 Juin',h:'23h',t1:0,t2:3},{d:'27 Juin',h:'23h',t1:1,t2:2}]}
 ];
 
-// --- State (flat array: 12 groups × 6 matches × 2 scores = 144 values, -1 = empty)
+const SQUADS = {
+  fra: { official: true,
+    G:[['Mike Maignan','AC Milan'],['Brice Samba','Stade Rennais'],['Robin Risser','RC Lens']],
+    D:[['Théo Hernandez','AC Milan'],['Lucas Digne','Aston Villa'],['Ibrahima Konaté','Liverpool'],['Lucas Hernandez','Paris SG'],['Maxence Lacroix','Crystal Palace'],['Malo Gusto','Chelsea'],['Jules Koundé','FC Barcelone'],['William Saliba','Arsenal'],['Dayot Upamecano','Bayern Munich']],
+    M:[['Adrien Rabiot','AC Milan'],['Aurélien Tchouaméni','Real Madrid'],['Manu Koné','AS Roma'],['Warren Zaïre-Emery','Paris SG'],['N\'Golo Kanté','Fenerbahçe']],
+    A:[['Bradley Barcola','Paris SG'],['Désiré Doué','Paris SG'],['Rayan Cherki','Manchester City'],['Michael Olise','Bayern Munich'],['Kylian Mbappé (cap.)','Real Madrid'],['Marcus Thuram','Inter Milan'],['Maghnès Akliouche','AS Monaco'],['Ousmane Dembélé','Paris SG'],['Jean-Philippe Mateta','Crystal Palace']]
+  },
+  arg:{ G:[['Emiliano Martínez','Aston Villa'],['Gerónimo Rulli','Marseille'],['Walter Benítez','PSV']],
+    D:[['Nicolás Otamendi','Benfica'],['Cristian Romero','Tottenham'],['Lisandro Martínez','Man. United'],['Nahuel Molina','Atl. Madrid'],['Gonzalo Montiel','River Plate'],['Marcos Acuña','River Plate'],['Nicolás Tagliafico','Lyon']],
+    M:[['Rodrigo De Paul','Inter Miami'],['Leandro Paredes','Boca Juniors'],['Enzo Fernández','Chelsea'],['Alexis Mac Allister','Liverpool'],['Giovani Lo Celso','Bétis']],
+    A:[['Lionel Messi (cap.)','Inter Miami'],['Julián Álvarez','Atl. Madrid'],['Lautaro Martínez','Inter Milan'],['Ángel Correa','Tigres'],['Nicolás González','Juventus'],['Alejandro Garnacho','Chelsea']]
+  },
+  bra:{ official: true,
+    G:[['Alisson','Liverpool'],['Ederson','Fenerbahçe'],['Weverton','Grêmio']],
+    D:[['Wesley','Roma'],['Douglas Santos','Zenit'],['Alex Sandro','Flamengo'],['Gabriel Magalhães','Arsenal'],['Marquinhos (cap.)','Paris SG'],['Danilo','Flamengo'],['Bremer','Juventus'],['Ibañez','Al-Ahli'],['Léo Pereira','Flamengo']],
+    M:[['Bruno Guimarães','Newcastle'],['Casemiro','Man. United'],['Danilo Santos','Botafogo'],['Fabinho','Al-Ittihad'],['Lucas Paquetá','Flamengo'],['Raphinha','FC Barcelone'],['Neymar Jr','Santos']],
+    A:[['Vinícius Júnior','Real Madrid'],['Luiz Henrique','Zenit'],['Matheus Cunha','Man. United'],['Gabriel Martinelli','Arsenal'],['Igor Thiago','Brentford'],['Endrick','Lyon'],['Rayan','Bournemouth']]
+  },
+  eng:{ G:[['Jordan Pickford','Everton'],['Dean Henderson','Crystal Palace'],['James Trafford','Burnley']],
+    D:[['Kyle Walker','Burnley'],['John Stones','Man. City'],['Marc Guéhi','Crystal Palace'],['Levi Colwill','Chelsea'],['Ezri Konsa','Aston Villa'],['Trent Alexander-Arnold','Real Madrid'],['Luke Shaw','Man. United']],
+    M:[['Declan Rice','Arsenal'],['Jude Bellingham','Real Madrid'],['Adam Wharton','Crystal Palace'],['Conor Gallagher','Atl. Madrid'],['Curtis Jones','Liverpool']],
+    A:[['Harry Kane (cap.)','Bayern Munich'],['Bukayo Saka','Arsenal'],['Phil Foden','Man. City'],['Cole Palmer','Chelsea'],['Anthony Gordon','Newcastle'],['Marcus Rashford','FC Barcelone'],['Ollie Watkins','Aston Villa']]
+  },
+  esp:{ G:[['Unai Simón','Athletic Bilbao'],['David Raya','Arsenal'],['Álex Remiro','Real Sociedad']],
+    D:[['Dani Carvajal','Real Madrid'],['Robin Le Normand','Atl. Madrid'],['Aymeric Laporte','Athletic'],['Pau Cubarsí','FC Barcelone'],['Dean Huijsen','Real Madrid'],['Marc Cucurella','Chelsea'],['Alejandro Grimaldo','Leverkusen']],
+    M:[['Rodri','Man. City'],['Pedri','FC Barcelone'],['Mikel Merino','Arsenal'],['Fabián Ruiz','Paris SG'],['Martín Zubimendi','Arsenal']],
+    A:[['Lamine Yamal','FC Barcelone'],['Nico Williams','Athletic'],['Álvaro Morata (cap.)','Galatasaray'],['Mikel Oyarzabal','Real Sociedad'],['Ferran Torres','FC Barcelone'],['Dani Olmo','FC Barcelone']]
+  },
+  por:{ G:[['Diogo Costa','FC Porto'],['Rui Patrício','Al-Wahda'],['José Sá','Wolves']],
+    D:[['Rúben Dias','Man. City'],['Gonçalo Inácio','Sporting'],['António Silva','Benfica'],['João Cancelo','Al-Hilal'],['Nuno Mendes','Paris SG'],['Diogo Dalot','Man. United']],
+    M:[['Bernardo Silva','Man. City'],['Bruno Fernandes','Man. United'],['Vitinha','Paris SG'],['João Neves','Paris SG'],['Rúben Neves','Al-Hilal']],
+    A:[['Cristiano Ronaldo (cap.)','Al-Nassr'],['Bruno Fernandes','Man. United'],['Rafael Leão','AC Milan'],['Pedro Neto','Chelsea'],['Gonçalo Ramos','Paris SG'],['Diogo Jota','Liverpool'],['João Félix','Chelsea']]
+  },
+  ger:{ G:[['Manuel Neuer','Bayern Munich'],['Marc-André ter Stegen','FC Barcelone'],['Oliver Baumann','Hoffenheim']],
+    D:[['Antonio Rüdiger','Real Madrid'],['Jonathan Tah','Bayern Munich'],['Nico Schlotterbeck','Dortmund'],['Joshua Kimmich (cap.)','Bayern Munich'],['Maximilian Mittelstädt','Stuttgart'],['Waldemar Anton','Dortmund']],
+    M:[['Toni Kroos','Real Madrid'],['İlkay Gündoğan','Man. City'],['Pascal Groß','Brighton'],['Aleksandar Pavlović','Bayern Munich']],
+    A:[['Florian Wirtz','Liverpool'],['Jamal Musiala','Bayern Munich'],['Kai Havertz','Arsenal'],['Leroy Sané','Galatasaray'],['Niclas Füllkrug','West Ham'],['Karim Adeyemi','Dortmund']]
+  },
+  ned:{ G:[['Bart Verbruggen','Brighton'],['Justin Bijlow','Feyenoord'],['Mark Flekken','Brentford']],
+    D:[['Virgil van Dijk (cap.)','Liverpool'],['Stefan de Vrij','Inter Milan'],['Matthijs de Ligt','Man. United'],['Denzel Dumfries','Inter Milan'],['Nathan Aké','Man. City'],['Jurriën Timber','Arsenal']],
+    M:[['Frenkie de Jong','FC Barcelone'],['Tijjani Reijnders','Man. City'],['Ryan Gravenberch','Liverpool'],['Xavi Simons','RB Leipzig'],['Joey Veerman','PSV']],
+    A:[['Memphis Depay','Corinthians'],['Cody Gakpo','Liverpool'],['Donyell Malen','Aston Villa'],['Brian Brobbey','Ajax'],['Wout Weghorst','Ajax']]
+  },
+  bel:{ G:[['Thibaut Courtois','Real Madrid'],['Koen Casteels','Al-Qadsiah'],['Matz Sels','Nottingham']],
+    D:[['Wout Faes','Leicester'],['Arthur Theate','Eintracht'],['Zeno Debast','Sporting'],['Timothy Castagne','Fulham'],['Maxim De Cuyper','Brighton']],
+    M:[['Kevin De Bruyne (cap.)','Napoli'],['Youri Tielemans','Aston Villa'],['Amadou Onana','Aston Villa'],['Arthur Vermeeren','Marseille']],
+    A:[['Romelu Lukaku','Napoli'],['Jérémy Doku','Man. City'],['Leandro Trossard','Arsenal'],['Charles De Ketelaere','Atalanta'],['Loïs Openda','Juventus']]
+  },
+  cro:{ G:[['Dominik Livaković','Fenerbahçe'],['Ivica Ivušić','Pafos'],['Nediljko Labrović','Rijeka']],
+    D:[['Joško Gvardiol','Man. City'],['Joseph Šutalo','Ajax'],['Borna Sosa','Torino'],['Josip Stanišić','Bayern Munich'],['Domagoj Vida','AEK']],
+    M:[['Luka Modrić (cap.)','AC Milan'],['Mateo Kovačić','Man. City'],['Marcelo Brozović','Al-Nassr'],['Lovro Majer','Wolfsburg'],['Luka Sučić','Real Sociedad']],
+    A:[['Andrej Kramarić','Hoffenheim'],['Ante Budimir','Osasuna'],['Mario Pašalić','Atalanta'],['Petar Musa','Dallas'],['Igor Matanović','Eintracht']]
+  },
+  ita:null,
+  // Other teams: shorter representative lists with key players
+  mex:{ official: true,
+    G:[['Raul Rangel','Chivas'],['Carlos Acevedo','Santos Laguna'],['Guillermo Ochoa','AEL Limassol']],
+    D:[['Israel Reyes','Club América'],['Jesús Gallardo','Toluca'],['Jorge Sánchez','PAOK'],['César Montes','Lokomotiv Moscou'],['Johan Vásquez','Genoa'],['Mateo Chávez','PSV']],
+    M:[['Erik Lira','Cruz Azul'],['Luis Romo','Chivas'],['Obed Vargas','Atl. Madrid'],['Brian Gutiérrez','Chivas'],['Orbelín Pineda','AEK Athènes'],['Edson Álvarez','Fenerbahçe'],['Gilberto Mora','Club Tijuana'],['César Huerta','Anderlecht'],['Álvaro Fidalgo','Real Bétis'],['Luis Chávez','Dynamo Moscou']],
+    A:[['Roberto Alvarado','Chivas'],['Alexis Vega','Toluca'],['Julián Quiñones','Al-Qadsiah'],['Santiago Giménez','AC Milan'],['Guillermo Martínez','Pumas'],['Armando González','Chivas'],['Raúl Jiménez','Fulham']]
+  },
+  rsa:{ official: true,
+    G:[['Ronwen Williams (cap.)','Mamelodi Sundowns'],['Ricardo Goss','Siwelele FC'],['Sipho Chaine','Orlando Pirates']],
+    D:[['Khuliso Mudau','Mamelodi Sundowns'],['Olwethu Makhanya','Philadelphia Union'],['Bradley Cross','Kaizer Chiefs'],['Thabang Matuludi','Polokwane City'],['Nkosinathi Sibisi','Orlando Pirates'],['Aubrey Modiba','Mamelodi Sundowns'],['Khulumani Ndamane','Mamelodi Sundowns'],['Ime Okon','Hannover 96'],['Samukele Kabini','Molde FK'],['Mbekezeli Mbokazi','Chicago Fire']],
+    M:[['Teboho Mokoena','Mamelodi Sundowns'],['Jayden Adams','Mamelodi Sundowns'],['Thalente Mbatha','Orlando Pirates'],['Kamogelo Sebelebele','Orlando Pirates'],['Sphephelo Sithole','CD Tondela']],
+    A:[['Oswin Appollis','Orlando Pirates'],['Tshepang Moremi','Orlando Pirates'],['Evidence Makgopa','Orlando Pirates'],['Lyle Foster','Burnley'],['Iqraam Rayners','Mamelodi Sundowns'],['Relebohile Mofokeng','Orlando Pirates'],['Themba Zwane','Mamelodi Sundowns'],['Thapelo Maseko','AEL Limassol']]
+  },
+  kor:{ official: true,
+    G:[['Song Bumkeun','Jeonbuk'],['Jo Hyeonwoo','Ulsan'],['Kim Seung-gyu','FC Tokyo']],
+    D:[['Jens Castrop','Mönchengladbach'],['Lee Hanbeom','Midtjylland'],['Park Jinseob','Zhejiang FC'],['Lee Kihyuk','Gangwon'],['Kim Minjae','Bayern Munich'],['Kim Moonhwan','Daejeon'],['Kim Taehyeon','Kashima Antlers'],['Lee Taeseok','Austria Vienne'],['Seol Youngwoo','Crvena Zvezda'],['Cho Wije','Jeonbuk']],
+    M:[['Lee Donggyeong','Ulsan'],['Hwang Heechan','Wolves'],['Yang Hyunjun','Celtic'],['Hwang Inbeom','Feyenoord'],['Lee Jaesung','Mainz'],['Kim Jingyu','Jeonbuk'],['Eom Jisung','Swansea'],['Bae Junho','Stoke'],['Lee Kangin','Paris SG'],['Paik Seungho','Birmingham']],
+    A:[['Cho Guesung','Midtjylland'],['Son Heungmin (cap.)','LAFC'],['Oh Hyeongyu','Beşiktaş']]
+  },
+  cze:{ official: true,
+    G:[['Lukáš Horníček','Braga'],['Matěj Kovář','PSV Eindhoven'],['Jindřich Staněk','Slavia Prague']],
+    D:[['Vladimír Coufal','Hoffenheim'],['David Douděra','Slavia Prague'],['Tomáš Holeš','Slavia Prague'],['Robin Hranáč','Hoffenheim'],['Štěpán Chaloupek','Slavia Prague'],['David Jurásek','Slavia Prague'],['Ladislav Krejčí','Wolves'],['Jaroslav Zelený','Sparta Prague'],['David Zima','Slavia Prague']],
+    M:[['Lukáš Červ','Viktoria Plzeň'],['Vladimír Darida','Hradec Králové'],['Lukáš Provod','Slavia Prague'],['Michal Sadílek','Slavia Prague'],['Hugo Sochůrek','Sparta Prague'],['Alexandr Sojka','Viktoria Plzeň'],['Tomáš Souček','West Ham'],['Pavel Šulc','Olympique Lyonnais'],['Denis Višinský','Viktoria Plzeň']],
+    A:[['Adam Hložek','Hoffenheim'],['Tomáš Chorý','Slavia Prague'],['Mojmír Chytil','Slavia Prague'],['Jan Kuchta','Sparta Prague'],['Patrik Schick','Bayer Leverkusen']]
+  },
+  can:{ official: true,
+    G:[['Dayne St. Clair','Inter Miami'],['Maxime Crépeau','Orlando City'],['Owen Goodman','Crystal Palace']],
+    D:[['Alistair Johnson','Celtic'],['Derek Cornelius','Marseille'],['Richie Laryea','Toronto FC'],['Niko Sigur','Hajduk Split'],['Joel Waterman','Chicago Fire'],['Luc De Fougerolles','Fulham'],['Moïse Bombito','OGC Nice'],['Alphonso Davies','Bayern Munich'],['Alfie Jones','Middlesbrough']],
+    M:[['Stephen Eustáquio','FC Porto'],['Ismaël Koné','Sassuolo'],['Tajon Buchanan','Villarreal'],['Mathieu Choinière','Los Angeles FC'],['Ali Ahmed','Norwich City'],['Nathan Saliba','Anderlecht'],['Liam Miller','Hull City'],['Marcelo Flores','Tigres UANL'],['Jacob Shaffelburg','Toronto FC'],['Jonathan Osorio','Toronto FC']],
+    A:[['Jonathan David','Juventus'],['Cyle Larin','Southampton'],['Tani Oluwaseyi','Villarreal'],['Promise David','Union Saint-Gilloise']]
+  },
+  bih:{ official: true,
+    G:[['Nikola Vasilj','FC St. Pauli'],['Martin Zlomislić','HNK Rijeka'],['Osman Hadžikić','Slaven Belupo']],
+    D:[['Sead Kolašinac','Atalanta'],['Amar Dedić','Benfica'],['Nihad Mujakić','Gaziantep FK'],['Nikola Katić','Schalke 04'],['Tarik Muharemović','Sassuolo'],['Stjepan Radeljić','HNK Rijeka'],['Dennis Hadžikadunić','Sampdoria'],['Nidal Čelik','Lens']],
+    M:[['Amir Hadžiahmetović','Hull City'],['Ivan Šunjić','Pafos FC'],['Ivan Bašić','FC Astana'],['Dženis Burnić','Karlsruher SC'],['Ermin Mahmić','Slovan Liberec'],['Benjamin Tahirović','Brøndby IF'],['Amar Memić','Viktoria Plzeň'],['Armin Gigović','Young Boys']],
+    A:[['Kerim Alajbegović','RB Salzbourg'],['Esmir Bajraktarević','PSV Eindhoven'],['Ermedin Demirović','VfB Stuttgart'],['Jovo Lukić','Universitatea Cluj'],['Samed Baždar','Jagiellonia Białystok'],['Haris Tabaković','Mönchengladbach'],['Edin Džeko (cap.)','Schalke 04']]
+  },
+  qat:{ official: true,
+    G:[['Salah Zakaria','Al-Duhail'],['Mahmoud Abunada','Al-Rayyan'],['Meshaal Barsham','Al-Sadd']],
+    D:[['Hashmi Hussein','Al-Arabi'],['Ayoub Alawi','Al-Gharafa'],['Boualem Khoukhi','Al-Sadd'],['Pedro Miguel','Al-Sadd'],['Issa Laaye','Al-Arabi'],['Lucas Mendes','Al-Wakrah'],['Sultan Al-Brake','Al-Duhail'],['Homam Al-Amin','Cultural Leonesa']],
+    M:[['Mohammed Al-Manai','Al-Shamal'],['Jassem Jaber','Al-Arabi'],['Karim Boudiaf','Al-Duhail'],['Ahmed Fathi','Al-Arabi'],['Abdulaziz Hatem','Al-Rayyan'],['Assim Madibo','Al-Wakrah']],
+    A:[['Tahseen Mohammed','Al-Duhail'],['Edmilson Junior','Al-Duhail'],['Almoez Ali','Al-Duhail'],['Akram Afif','Al-Sadd'],['Mohammed Muntari','Al-Gharafa'],['Youssef Abdulrazzaq','Al-Wakrah'],['Ahmed Alaa','Al-Rayyan'],['Hassan Al-Haydos','Al-Sadd'],['Ahmed Al-Janahi','Al-Gharafa']]
+  },
+  sui:{ official: true,
+    G:[['Marvin Keller','Young Boys'],['Gregor Kobel','Borussia Dortmund'],['Yvon Mvogo','Lorient']],
+    D:[['Manuel Akanji','Inter Milan'],['Aurèle Amenda','Eintracht Francfort'],['Eray Cömert','Valence'],['Nico Elvedi','Mönchengladbach'],['Luca Jaquez','Stuttgart'],['Miro Muheim','Hambourg SV'],['Ricardo Rodríguez','Real Bétis'],['Silvan Widmer','Mainz 05']],
+    M:[['Michel Aebischer','Pisa'],['Remo Freuler','Bologne'],['Ardon Jashari','AC Milan'],['Fabian Rieder','Augsbourg'],['Djibril Sow','Séville'],['Granit Xhaka (cap.)','Sunderland'],['Denis Zakaria','Monaco']],
+    A:[['Zeki Amdouni','Burnley'],['Breel Embolo','Stade Rennais'],['Dan Ndoye','Nottingham Forest'],['Noah Okafor','Leeds United'],['Rubén Vargas','Séville'],['Christian Fassnacht','Young Boys'],['Cedric Itten','Fortuna Düsseldorf'],['Johan Manzambi','SC Fribourg']]
+  },
+  mar:{ official: true,
+    G:[['Yassine Bounou','Al-Hilal'],['Munir El Kajoui','RS Berkane'],['Ahmed Reda Tagnaouti','AS FAR']],
+    D:[['Noussair Mazraoui','Man. United'],['Anass Salah-Eddine','PSV Eindhoven'],['Youssef Belammari','Al-Ahly'],['Nayef Aguerd','Marseille'],['Chadi Riad','Crystal Palace'],['Issa Diop','Fulham'],['Redouane Halhal','Mechelen'],['Achraf Hakimi (cap.)','Paris SG'],['Zakaria El Ouahdi','Genk']],
+    M:[['Samir El Mourabet','Strasbourg'],['Ayyoub Bouaddi','Lille'],['Neil El Aynaoui','Roma'],['Sofyan Amrabat','Real Bétis'],['Azzedine Ounahi','Girona'],['Bilal El Khannouss','Stuttgart'],['Ismael Saibari','PSV Eindhoven']],
+    A:[['Abdessamad Ezzalzouli','Real Bétis'],['Chemsdine Talbi','Sunderland'],['Soufiane Rahimi','Al-Ain'],['Ayoub El Kaabi','Olympiakos'],['Brahim Díaz','Real Madrid'],['Yassine Gessime','Strasbourg'],['Ayoube Amaimouni','Eintracht Francfort']]
+  },
+  hai:{ official: true,
+    G:[['Johnny Placide','SC Bastia'],['Alexandre Pierre','FC Sochaux'],['Josué Duverger','Cosmos Koblenz']],
+    D:[['Carlens Arcus','Angers SCO'],['Wilguens Paugain','Zulte Waregem'],['Duke Lacroix','Colorado Springs'],['Martin Experience','Nancy-Lorraine'],['Jean-Kevin Duverne','KAA Gent'],['Ricardo Adé','LDU Quito'],['Hannes Delcroix','FC Lugano'],['Keeto Thermoncy','Young Boys II']],
+    M:[['Leverton Pierre','FC Vizela'],['Carl-Fred Sainthe','El Paso Locomotive'],['Jean-Jacques Danley','Philadelphia Union'],['Jeanricner Bellegarde','Wolverhampton'],['Pierre Woodenski','Violette AC'],['Dominique Simon','Tatran Prešov']],
+    A:[['Louicius Deedson','FC Dallas'],['Ruben Providence','Almere City'],['Josué Casimir','AJ Auxerre'],['Derrick Etienne','Toronto FC'],['Wilson Isidor','Sunderland'],['Duckens Nazon','Esteghlal'],['Frantzdy Pierrot','Çaykur Rizespor'],['Yassin Fortune','FC Vizela'],['Lenny Joseph','Ferencváros']]
+  },
+  sco:{ official: true,
+    G:[['Craig Gordon','Hearts'],['Angus Gunn','Nottingham Forest'],['Liam Kelly','Rangers']],
+    D:[['Grant Hanley','Hibernian'],['Jack Hendry','Al-Ettifaq'],['Aaron Hickey','Brentford'],['Dom Hyam','Wrexham'],['Scott McKenna','Dinamo Zagreb'],['Nathan Patterson','Everton'],['Anthony Ralston','Celtic'],['Andy Robertson (cap.)','Liverpool'],['John Souttar','Rangers'],['Kieran Tierney','Celtic']],
+    M:[['Ryan Christie','Bournemouth'],['Findlay Curtis','Kilmarnock'],['Lewis Ferguson','Bologne'],['Ben Gannon-Doak','Bournemouth'],['Tyler Fletcher','Man. United'],['John McGinn','Aston Villa'],['Kenny McLean','Norwich City'],['Scott McTominay','Napoli']],
+    A:[['Ché Adams','Torino'],['Lyndon Dykes','Charlton Athletic'],['George Hirst','Ipswich Town'],['Lawrence Shankland','Hearts'],['Ross Stewart','Southampton']]
+  },
+  usa:{ official: true,
+    G:[['Chris Brady','Chicago Fire'],['Matt Freese','New York City FC'],['Matt Turner','New England Revolution']],
+    D:[['Max Arfsten','Columbus Crew'],['Sergiño Dest','PSV Eindhoven'],['Alex Freeman','Villarreal'],['Mark McKenzie','Toulouse'],['Tim Ream','Charlotte FC'],['Chris Richards','Crystal Palace'],['Antonee Robinson','Fulham'],['Miles Robinson','FC Cincinnati'],['Joe Scally','Mönchengladbach'],['Auston Trusty','Celtic']],
+    M:[['Tyler Adams','Bournemouth'],['Sebastian Berhalter','Vancouver Whitecaps'],['Weston McKennie','Juventus'],['Gio Reyna','Mönchengladbach'],['Cristian Roldan','Seattle Sounders'],['Malik Tillman','Bayer Leverkusen']],
+    A:[['Brenden Aaronson','Leeds United'],['Folarin Balogun','Monaco'],['Ricardo Pepi','PSV Eindhoven'],['Christian Pulisic (cap.)','AC Milan'],['Tim Weah','Marseille'],['Haji Wright','Coventry City'],['Alejandro Zendejas','Club América']]
+  },
+  par:{ official: true,
+    G:[['Gatito Fernández','Cerro Porteño'],['Orlando Gill','San Lorenzo'],['Gastón Olveira','Olimpia']],
+    D:[['Gustavo Gómez (cap.)','Palmeiras'],['Júnior Alonso','Atlético Mineiro'],['Fabián Balbuena','Grêmio'],['Omar Alderete','Sunderland'],['Juan José Cáceres','Dynamo Moscou'],['Gustavo Velázquez','Cerro Porteño'],['José Canale','Lanús'],['Alexandro Maidana','Talleres']],
+    M:[['Miguel Almirón','Atlanta United'],['Kaku','Al-Ain'],['Andrés Cubas','Vancouver Whitecaps'],['Ramón Sosa','Palmeiras'],['Diego Gómez','Brighton'],['Damián Bobadilla','São Paulo'],['Braian Ojeda','Orlando City'],['Matías Galarza','Atlanta United'],['Maurício','Palmeiras']],
+    A:[['Antonio Sanabria','Cremonese'],['Julio Enciso','Strasbourg'],['Gabriel Ávalos','Independiente'],['Álex Arce','Independiente Rivadavia'],['Isidro Pitta','RB Bragantino'],['Gustavo Caballero','Portsmouth']]
+  },
+  aus:{ official: true,
+    G:[['Mathew Ryan (cap.)','Levante'],['Paul Izzo','Randers'],['Patrick Beach','Melbourne City']],
+    D:[['Aziz Behich','Melbourne City'],['Jordan Bos','Feyenoord'],['Cameron Burgess','Swansea City'],['Alessandro Circati','Parma'],['Milos Degenek','APOEL'],['Ryan Geria','Albirex Niigata'],['Sam Herrington','Colorado Rapids'],['Anthony Italiano','Grazer AK'],['Harry Souttar','Leicester City'],['Hayden Trewin','New York City FC']],
+    M:[['Cameron Devlin','Hearts'],['Ajdin Hrustic','Heracles Almelo'],['Jackson Irvine','St. Pauli'],['Connor Metcalfe','St. Pauli'],['Patrick Yazbek','Sydney FC'],['Aiden O\'Neill','New York City FC']],
+    A:[['Nestory Irankunda','Watford'],['Mathew Leckie','Melbourne City'],['Awer Mabil','Castellón'],['Mohamed Touré','Norwich City'],['Daniel Velupillay','Melbourne City'],['Cristian Volpato','Sassuolo'],['Kusini Yengi','Machida Zelvia']]
+  },
+  tur:{ official: true,
+    G:[['Altay Bayındır','Man. United'],['Mert Günok','Fenerbahçe'],['Uğurcan Çakır','Galatasaray']],
+    D:[['Abdülkerim Bardakcı','Galatasaray'],['Çağlar Söyüncü','Fenerbahçe'],['Eren Elmalı','Galatasaray'],['Ferdi Kadıoğlu','Brighton'],['Merih Demiral','Al-Ahli'],['Mert Müldür','Fenerbahçe'],['Ozan Kabak','Hoffenheim'],['Samet Akaydın','Çaykur Rizespor'],['Zeki Çelik','Roma']],
+    M:[['Hakan Çalhanoğlu (cap.)','Inter Milan'],['İsmail Yüksek','Fenerbahçe'],['Kaan Ayhan','Galatasaray'],['Orkun Kökçü','Beşiktaş'],['Salih Özcan','Borussia Dortmund']],
+    A:[['Arda Güler','Real Madrid'],['Barış Alper Yılmaz','Galatasaray'],['Can Uzun','Eintracht Francfort'],['Deniz Gül','FC Porto'],['İrfan Can Kahveci','Kasımpaşa'],['Kenan Yıldız','Juventus'],['Kerem Aktürkoğlu','Fenerbahçe'],['Oğuz Aydın','Fenerbahçe'],['Yunus Akgün','Galatasaray']]
+  },
+  cur:{ G:[['Eloy Room','Columbus Crew'],['Roy Kortsmit','Sint-Truiden']],
+    D:[['Cuco Martina','Curaçao'],['Juriën Gaari','VVV-Venlo'],['Armando Obispo','PSV'],['Sherel Floranus','Heerenveen']],
+    M:[['Leandro Bacuna','Birmingham'],['Juninho Bacuna','Sheffield Wednesday'],['Tahith Chong','Sheffield United']],
+    A:[['Tahith Chong','Sheffield United'],['Anco Jansen','FC Den Bosch'],['Jürgen Locadia','PEC Zwolle']]
+  },
+  civ:{ G:[['Yahia Fofana','Angers'],['Ira Eliezer Tapé','Bourg-en-Bresse']],
+    D:[['Serge Aurier','Galatasaray'],['Wilfried Singo','Monaco'],['Eric Bailly','sans club'],['Ghislain Konan','Reims'],['Ousmane Diomandé','Sporting'],['Odilon Kossounou','Atalanta']],
+    M:[['Franck Kessié','Al-Ahli'],['Ibrahim Sangaré','Nottingham'],['Seko Fofana','Al-Nassr'],['Yves Bissouma','Tottenham']],
+    A:[['Sébastien Haller','Utrecht'],['Wilfried Zaha','Charlotte FC'],['Nicolas Pépé','Villarreal'],['Jonathan Bamba','Celta Vigo'],['Simon Adingra','Brighton'],['Karim Konaté','Salzbourg']]
+  },
+  ecu:{ G:[['Hernán Galíndez','Aucas'],['Alexander Domínguez','LDU Quito'],['Moisés Ramírez','Independiente del Valle']],
+    D:[['Piero Hincapié','Leverkusen'],['Willian Pacho','Paris SG'],['Pervis Estupiñán','Brighton'],['Joel Ordóñez','Club Brugge'],['Ángelo Preciado','Sporting']],
+    M:[['Moisés Caicedo','Chelsea'],['Carlos Gruezo','Toluca'],['Alan Franco','Charlotte FC'],['Jhojan Julio','Internacional']],
+    A:[['Enner Valencia (cap.)','Internacional'],['Kendry Páez','Estrasbourg'],['Kevin Rodríguez','Union St-Gilloise'],['Gonzalo Plata','Flamengo'],['Jeremy Sarmiento','Burnley']]
+  },
+  jpn:{ G:[['Zion Suzuki','Parma'],['Daniel Schmidt','Lommel'],['Keisuke Osako','Sanfrecce']],
+    D:[['Takehiro Tomiyasu','Arsenal'],['Ko Itakura','Mönchengladbach'],['Hiroki Sakai','Cerezo Osaka'],['Yukinari Sugawara','Brighton'],['Takefusa Kubo','Real Sociedad']],
+    M:[['Wataru Endo','Liverpool'],['Hidemasa Morita','Sporting'],['Daichi Kamada','Crystal Palace'],['Reo Hatate','Celtic']],
+    A:[['Takefusa Kubo','Real Sociedad'],['Kaoru Mitoma','Brighton'],['Daizen Maeda','Celtic'],['Junya Ito','Stade de Reims'],['Ayase Ueda','Feyenoord'],['Takumi Minamino','Monaco']]
+  },
+  swe:{ G:[['Robin Olsen','Aston Villa'],['Kristoffer Nordfeldt','AIK']],
+    D:[['Victor Lindelöf','Aston Villa'],['Isak Hien','Atalanta'],['Gabriel Gudmundsson','Leeds'],['Emil Krafth','Newcastle']],
+    M:[['Albin Ekdal','Spezia'],['Mattias Svanberg','Wolfsburg'],['Hjalmar Ekdal','Burnley'],['Jens Cajuste','Ipswich']],
+    A:[['Alexander Isak','Liverpool'],['Viktor Gyökeres','Arsenal'],['Anthony Elanga','Newcastle'],['Dejan Kulusevski','Tottenham'],['Lucas Bergvall','Tottenham']]
+  },
+  tun:{ G:[['Aymen Dahmen','Sochaux'],['Béchir Ben Saïd','US Monastir']],
+    D:[['Yassine Meriah','Étoile du Sahel'],['Montassar Talbi','Lorient'],['Dylan Bronn','Salernitana'],['Ali Abdi','Caen'],['Mohamed Dräger','Olympiakos']],
+    M:[['Aïssa Laïdouni','Union Berlin'],['Ferjani Sassi','Al-Duhail'],['Ellyes Skhiri','Eintracht']],
+    A:[['Wahbi Khazri','Montpellier'],['Naïm Sliti','Al-Ettifaq'],['Issam Jebali','Odense BK'],['Hannibal Mejbri','Burnley'],['Anis Slimane','Brøndby']]
+  },
+  egy:{ G:[['Mohamed El-Shenawy (cap.)','Al-Ahly'],['Mohamed Abou Gabal','Pyramids']],
+    D:[['Mohamed Hany','Al-Ahly'],['Mohamed Hamdy','Pyramids'],['Omar Kamal','Pyramids'],['Ahmed Hegazy','Al-Ittihad'],['Ahmed Fatouh','Zamalek']],
+    M:[['Mohamed Elneny','Al-Jazira'],['Mahmoud Hamdy','Pyramids'],['Tarek Hamed','Damac'],['Mostafa Mohamed','Nantes']],
+    A:[['Mohamed Salah','Liverpool'],['Trezeguet','Trabzonspor'],['Omar Marmoush','Man. City'],['Mostafa Mohamed','Nantes'],['Mahmoud Trezeguet','Trabzonspor']]
+  },
+  irn:{ G:[['Alireza Beiranvand','Tractor'],['Payam Niazmand','Sepahan']],
+    D:[['Ehsan Hajsafi (cap.)','AEK'],['Sadegh Moharrami','Dinamo Zagreb'],['Hossein Kanaanizadegan','Persepolis'],['Shojae Khalilzadeh','Tractor']],
+    M:[['Saeid Ezatolahi','Al-Riyadh'],['Saman Ghoddos','Brentford'],['Alireza Jahanbakhsh','Heerenveen']],
+    A:[['Mehdi Taremi','Inter Milan'],['Sardar Azmoun','Shabab Al-Ahli'],['Karim Ansarifard','sans club'],['Mehdi Ghayedi','Ittihad Kalba']]
+  },
+  nzl:{ G:[['Oliver Sail','Wellington Phoenix'],['Max Crocombe','Burton Albion']],
+    D:[['Tyler Bindon','Reading'],['Michael Boxall','Minnesota'],['Liberato Cacace','Empoli'],['Tim Payne','Auckland FC']],
+    M:[['Joe Bell','Viking'],['Marko Stamenić','Olympiakos'],['Matt Garbett','Granada']],
+    A:[['Chris Wood (cap.)','Nottingham'],['Kosta Barbarouses','Wellington'],['Elijah Just','FC Helsingør'],['Eli Just','sans club']]
+  },
+  cpv:{ G:[['Vozinha','RFC Liège'],['Márcio Rosa','sans club']],
+    D:[['Stopira','Vidi'],['Steven Moreira','Columbus Crew'],['Diney','APO Levadiakos'],['Roberto Lopes','Shamrock']],
+    M:[['Patrick Andrade','APOEL'],['Jovane Cabral','Cosenza'],['Garry Rodrigues','Apollon']],
+    A:[['Bebê','Casa Pia'],['Júlio Tavares','Olimpija'],['Ryan Mendes','Tartu']]
+  },
+  ksa:{ G:[['Mohammed Al-Owais','Al-Hilal'],['Nawaf Al-Aqidi','Al-Nassr']],
+    D:[['Yasser Al-Shahrani','Al-Hilal'],['Ali Al-Bulaihi','Al-Hilal'],['Sultan Al-Ghannam','Al-Nassr'],['Hassan Tambakti','Al-Hilal']],
+    M:[['Salman Al-Faraj (cap.)','Al-Hilal'],['Mohamed Kanno','Al-Hilal'],['Abdulellah Al-Malki','Al-Hilal'],['Nasser Al-Dawsari','Al-Hilal']],
+    A:[['Salem Al-Dawsari','Al-Hilal'],['Saleh Al-Shehri','Al-Ittihad'],['Firas Al-Buraikan','Al-Ahli'],['Abdulrahman Ghareeb','Al-Ahli']]
+  },
+  uru:{ G:[['Sergio Rochet','Internacional'],['Santiago Mele','Junior'],['Franco Israel','Sporting']],
+    D:[['Ronald Araújo','FC Barcelone'],['José María Giménez','Atl. Madrid'],['Sebastián Cáceres','América'],['Mathías Olivera','Napoli'],['Nahitan Nández','Al-Qadsiah']],
+    M:[['Federico Valverde','Real Madrid'],['Manuel Ugarte','Man. United'],['Rodrigo Bentancur','Tottenham'],['Nicolás de la Cruz','Flamengo']],
+    A:[['Darwin Núñez','Al-Hilal'],['Maxi Araújo','Sporting'],['Facundo Pellistri','Panathinaikos'],['Brian Rodríguez','América'],['Luis Suárez','Inter Miami']]
+  },
+  sen:{ G:[['Édouard Mendy','Al-Ahli'],['Mory Diaw','Clermont'],['Seny Dieng','Middlesbrough']],
+    D:[['Kalidou Koulibaly (cap.)','Al-Hilal'],['Abdou Diallo','Al-Arabi'],['Ismaïl Jakobs','Galatasaray'],['Krépin Diatta','Monaco'],['Youssouf Sabaly','Bétis'],['Moussa Niakhaté','Lyon']],
+    M:[['Idrissa Gueye','Everton'],['Pape Matar Sarr','Tottenham'],['Pape Gueye','Villarreal'],['Lamine Camara','Monaco'],['Habib Diarra','Strasbourg']],
+    A:[['Sadio Mané','Al-Nassr'],['Ismaïla Sarr','Crystal Palace'],['Boulaye Dia','Lazio'],['Nicolas Jackson','Bayern Munich'],['Iliman Ndiaye','Everton']]
+  },
+  irq:{ G:[['Jalal Hassan','Al-Karkh'],['Fahad Talib','Al-Quwa Al-Jawiya']],
+    D:[['Saad Natiq','Al-Shorta'],['Rebin Sulaka','Al-Shorta'],['Manaf Younus','Al-Karkh'],['Akam Hashim','Erbil']],
+    M:[['Bashar Resan','Persepolis'],['Amir Al-Ammari','Halmstads BK'],['Osama Rashid','Al-Karkh']],
+    A:[['Aymen Hussein','Al-Najaf'],['Ali Al-Hamadi','Ipswich'],['Mohanad Ali','Al-Shorta'],['Zidane Iqbal','Utrecht']]
+  },
+  nor:{ G:[['Ørjan Nyland','Sevilla'],['Egil Selvik','Brann']],
+    D:[['Stefan Strandberg','Salernitana'],['Kristoffer Ajer','Brentford'],['Leo Østigård','Stade Rennais'],['Birger Meling','Stade Rennais']],
+    M:[['Martin Ødegaard (cap.)','Arsenal'],['Sander Berge','Fulham'],['Patrick Berg','Bodø/Glimt'],['Morten Thorsby','Genoa'],['Fredrik Aursnes','Benfica']],
+    A:[['Erling Haaland','Man. City'],['Alexander Sørloth','Atl. Madrid'],['Mohamed Elyounoussi','Al-Wahda'],['Antonio Nusa','RB Leipzig'],['Oscar Bobb','Man. City']]
+  },
+  alg:{ G:[['Raïs M\'Bolhi','Al-Ittifaq'],['Anthony Mandrea','Angers']],
+    D:[['Aïssa Mandi','Lille'],['Ramy Bensebaini','Dortmund'],['Mohamed-Ali Cho','Real Sociedad'],['Youcef Atal','Al-Sadd'],['Djamel Benlamri','sans club']],
+    M:[['Ismaël Bennacer','Marseille'],['Sofiane Feghouli','Karagümrük'],['Adam Ounas','Lille'],['Houssem Aouar','Al-Ittihad']],
+    A:[['Riyad Mahrez (cap.)','Al-Ahli'],['Saïd Benrahma','Neom'],['Islam Slimani','sans club'],['Andy Delort','Mostaganem']]
+  },
+  aut:{ G:[['Patrick Pentz','Brøndby'],['Heinz Lindner','sans club']],
+    D:[['David Alaba (cap.)','Real Madrid'],['Stefan Posch','Como'],['Kevin Danso','Tottenham'],['Maximilian Wöber','Mönchengladbach'],['Philipp Mwene','Mainz']],
+    M:[['Marcel Sabitzer','Dortmund'],['Konrad Laimer','Bayern Munich'],['Florian Grillitsch','Hoffenheim'],['Nicolas Seiwald','Salzbourg']],
+    A:[['Marko Arnautović','sans club'],['Michael Gregoritsch','Brøndby'],['Christoph Baumgartner','Leipzig'],['Patrick Wimmer','Wolfsburg']]
+  },
+  jor:{ G:[['Yazeed Abulaila','Al-Faisaly'],['Abdallah Al-Fakhouri','Al-Salt']],
+    D:[['Mohammed Abu Hashish','Al-Faisaly'],['Bara\'ah Marei','Al-Salt'],['Yazan Al-Arab','Al-Wehdat']],
+    M:[['Noor Al-Rawabdeh','Al-Hussein'],['Mahmoud Al-Mardi','Al-Wehdat'],['Ehsan Haddad','Al-Ramtha']],
+    A:[['Musa Al-Taamari','Montpellier'],['Yazan Al-Naimat','Al-Ahli'],['Ali Olwan','Adana Demirspor']]
+  },
+  cod:{ G:[['Lionel Mpasi','Rodez'],['Dimitry Bertaud','Montpellier']],
+    D:[['Chancel Mbemba (cap.)','Lille'],['Henoc Inonga','Saint-Pol'],['Aaron Tshibola','sans club'],['Arthur Masuaku','Beşiktaş'],['Dylan Batubinsika','Saint-Étienne']],
+    M:[['Samuel Moutoussamy','Nantes'],['Théo Bongonda','Spartak Moscou'],['Charles Pickel','Cremonese']],
+    A:[['Yoane Wissa','Newcastle'],['Cédric Bakambu','Real Bétis'],['Silas Katompa','Stuttgart'],['Meschack Elia','Young Boys']]
+  },
+  uzb:{ G:[['Utkir Yusupov','Pakhtakor'],['Sanjar Kuvvatov','Surkhon']],
+    D:[['Eldor Shomurodov (cap.)','Roma'],['Khojimat Erkinov','Pakhtakor'],['Akromjon Komilov','Lokomotiv Tashkent']],
+    M:[['Jaloliddin Masharipov','Persepolis'],['Otabek Shukurov','Esteghlal'],['Abbosbek Fayzullaev','CSKA Moscou']],
+    A:[['Eldor Shomurodov','Roma'],['Igor Sergeev','Almaty'],['Bobur Abdikholikov','Hatayspor']]
+  },
+  col:{ G:[['Camilo Vargas','Atlas'],['David Ospina','Atlético Nacional'],['Álvaro Montero','River Plate']],
+    D:[['Daniel Muñoz','Crystal Palace'],['Davinson Sánchez','Galatasaray'],['Jhon Lucumí','Bologne'],['Carlos Cuesta','Galatasaray'],['Yerry Mina','Cagliari']],
+    M:[['James Rodríguez (cap.)','Club León'],['Mateus Uribe','Al-Sadd'],['Jefferson Lerma','Crystal Palace'],['Richard Ríos','Palmeiras']],
+    A:[['Luis Díaz','Bayern Munich'],['Jhon Durán','Fenerbahçe'],['Jhon Arias','Wolves'],['Rafael Santos Borré','Internacional'],['Luis Sinisterra','Cruzeiro']]
+  },
+  gha:{ G:[['Lawrence Ati-Zigi','St. Gallen'],['Joe Wollacott','Charlton'],['Manaf Nurudeen','Westerlo']],
+    D:[['Daniel Amartey','Hull City'],['Mohammed Salisu','Monaco'],['Alexander Djiku','Fenerbahçe'],['Alidu Seidu','Stade Rennais'],['Tariq Lamptey','Brighton']],
+    M:[['Thomas Partey','Villarreal'],['Mohammed Kudus','Tottenham'],['Salis Abdul Samed','Lens'],['Elisha Owusu','Auxerre']],
+    A:[['Inaki Williams','Athletic'],['Jordan Ayew','Leicester'],['Antoine Semenyo','Bournemouth'],['Felix Afena-Gyan','Empoli'],['Ernest Nuamah','Lyon']]
+  },
+  pan:{ G:[['Orlando Mosquera','Plaza Amador'],['Luis Mejía','Nacional Asunción']],
+    D:[['Michael Amir Murillo','Marseille'],['Andrés Andrade','Atlético Nacional'],['Edgardo Fariña','Sporting SM'],['Eric Davis','Sporting']],
+    M:[['Aníbal Godoy','San Diego'],['Adalberto Carrasquilla','Pumas'],['Cristian Martínez','Independiente']],
+    A:[['Ismael Díaz','Oriente Petrolero'],['José Fajardo','Tauro FC'],['Cecilio Waterman','Argentinos Jrs'],['Adalberto Carrasquilla','Pumas']]
+  }
+};
+
 let state = new Array(144).fill(-1);
 
 function stateIndex(gi, mi, side) { return gi * 12 + mi * 2 + side; }
 function getS(gi, mi, side) { return state[stateIndex(gi, mi, side)]; }
 function setS(gi, mi, side, val) { state[stateIndex(gi, mi, side)] = val; }
 
-// --- Encode / Decode state in URL (base64)
 function encodeState() {
   const arr = state.map(v => v < 0 ? 255 : v);
-  const b64 = btoa(String.fromCharCode(...arr));
-  return b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+  return btoa(String.fromCharCode(...arr)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
 }
 
 function decodeState(str) {
@@ -234,36 +535,126 @@ function decodeState(str) {
     str = str.replace(/-/g,'+').replace(/_/g,'/');
     const decoded = atob(str);
     const arr = [...decoded].map(c => c.charCodeAt(0));
-    if (arr.length === 144) {
-      state = arr.map(v => v === 255 ? -1 : v);
-    }
+    if (arr.length === 144) state = arr.map(v => v === 255 ? -1 : v);
   } catch(e) {}
 }
 
 function updateURL() {
+  const hasData = state.some(v => v >= 0);
+  if (!hasData) {
+    history.replaceState(null, '', window.location.pathname);
+    document.getElementById('share-url').textContent = 'Saisis des scores pour générer un lien…';
+    return;
+  }
   const encoded = encodeState();
-  const url = window.location.origin + window.location.pathname + '?s=' + encoded;
   history.replaceState(null, '', '?s=' + encoded);
-  document.getElementById('share-url').textContent = url;
+  document.getElementById('share-url').textContent = window.location.href;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
 function copyLink() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    const btn = document.getElementById('btn-share');
+  if (!state.some(v => v >= 0)) {
+    toast('Remplis d\'abord des scores !');
+    return;
+  }
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.getElementById('btn-copy');
     btn.textContent = '✓ Copié !';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '📋 Copier le lien'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => { btn.textContent = '🔗 Copier le lien'; btn.classList.remove('copied'); }, 2000);
   });
 }
 
-// --- Standings calculation
+function downloadJSON() {
+  const data = {
+    version: '1.0',
+    tournament: 'FIFA World Cup 2026',
+    exportedAt: new Date().toISOString(),
+    scores: {}
+  };
+  GROUPS.forEach((g, gi) => {
+    g.matches.forEach((m, mi) => {
+      const s1 = getS(gi, mi, 0); const s2 = getS(gi, mi, 1);
+      if (s1 >= 0 && s2 >= 0) {
+        const t1 = g.teams[m.t1].n; const t2 = g.teams[m.t2].n;
+        data.scores[`${g.id}_${mi+1}_${t1}_vs_${t2}`] = `${s1}-${s2}`;
+      }
+    });
+  });
+  data._raw = encodeState();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `mondial-2026-pronostics-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Pronostics téléchargés !');
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data._raw) {
+        decodeState(data._raw);
+        fullRender();
+        updateURL();
+        toast('Pronostics importés !');
+      } else {
+        toast('Fichier invalide');
+      }
+    } catch(err) {
+      toast('Erreur lors de l\'import');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function downloadPNG() {
+  toast('Génération de l\'image…');
+  document.getElementById('actions').style.visibility = 'hidden';
+  const shareBox = document.querySelector('.share-box');
+  shareBox.style.visibility = 'hidden';
+  html2canvas(document.getElementById('capture-root'), {
+    backgroundColor: '#0a1628',
+    scale: 2,
+    useCORS: true,
+    logging: false
+  }).then(canvas => {
+    document.getElementById('actions').style.visibility = 'visible';
+    shareBox.style.visibility = 'visible';
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mondial-2026-tableau-${new Date().toISOString().slice(0,10)}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('Image téléchargée !');
+    });
+  }).catch(err => {
+    document.getElementById('actions').style.visibility = 'visible';
+    shareBox.style.visibility = 'visible';
+    toast('Erreur lors de l\'export');
+  });
+}
+
 function calcStandings(gi) {
   const g = GROUPS[gi];
-  const t = g.teams.map((team, i) => ({i, f:team.f, n:team.n, fr:team.fr||false, p:0, w:0, d:0, l:0, gf:0, ga:0, gd:0, pts:0}));
+  const t = g.teams.map((team, i) => ({i, f:team.f, n:team.n, k:team.k, fr:team.fr||false, p:0, w:0, d:0, l:0, gf:0, ga:0, gd:0, pts:0}));
   g.matches.forEach((m, mi) => {
-    const s1 = getS(gi, mi, 0);
-    const s2 = getS(gi, mi, 1);
+    const s1 = getS(gi, mi, 0); const s2 = getS(gi, mi, 1);
     if (s1 < 0 || s2 < 0) return;
     t[m.t1].p++; t[m.t2].p++;
     t[m.t1].gf += s1; t[m.t1].ga += s2;
@@ -277,14 +668,13 @@ function calcStandings(gi) {
   return t;
 }
 
-// --- Render
 function renderStandings(gi) {
   const st = calcStandings(gi);
   let html = `<div class="sth"><span>#</span><span>Équipe</span><span>J</span><span>G</span><span>N</span><span>P</span><span>GD</span><span>Pts</span></div>`;
   st.forEach((row, rank) => {
     const qc = rank < 2 ? 'q' : (rank === 2 ? 'q3' : '');
     const rc = rank < 2 ? 'r1' : (rank === 2 ? 'r3' : '');
-    html += `<div class="srow ${qc}">
+    html += `<div class="srow ${qc}" onclick="openSquad('${row.k}', '${row.f}', '${row.n.replace(/'/g,"\\'")}')">
       <span class="srank ${rc}">${rank+1}</span>
       <span class="steam${row.fr?' fr':''}">${row.f} ${row.n}</span>
       <span class="sval">${row.p}</span>
@@ -342,11 +732,45 @@ function resetAll() {
   if (!confirm('Réinitialiser tous les scores ?')) return;
   state.fill(-1);
   fullRender();
-  history.replaceState(null, '', window.location.pathname);
-  document.getElementById('share-url').textContent = 'Génère un lien en saisissant des scores…';
+  updateURL();
+  toast('Tableau réinitialisé');
 }
 
-// --- Init: load from URL if present
+function openSquad(key, flag, name) {
+  const squad = SQUADS[key];
+  document.getElementById('modal-flag').textContent = flag;
+  document.getElementById('modal-title').textContent = name;
+  const body = document.getElementById('modal-body');
+  if (!squad) {
+    body.innerHTML = `<div class="squad-note">Effectif détaillé non disponible pour cette équipe. La liste officielle des 26 joueurs sera publiée par la fédération avant la compétition.</div>`;
+  } else {
+    let html = '';
+    if (squad.official) {
+      html += `<div class="squad-note"><strong>✓ Liste officielle</strong> dévoilée par Didier Deschamps le 14 mai 2026 sur TF1.</div>`;
+    } else {
+      html += `<div class="squad-note"><strong>ℹ️ Joueurs principaux</strong> — sélection indicative des joueurs internationaux confirmés. La liste officielle des 26 joueurs sera publiée par la fédération.</div>`;
+    }
+    const sections = [['G','Gardiens'],['D','Défenseurs'],['M','Milieux'],['A','Attaquants']];
+    sections.forEach(([key, label]) => {
+      if (squad[key] && squad[key].length) {
+        html += `<div class="squad-sec"><h3>${label} (${squad[key].length})</h3><div class="squad-list">`;
+        squad[key].forEach(p => {
+          html += `<div class="squad-item"><span class="squad-name">${p[0]}</span><span class="squad-club">${p[1]}</span></div>`;
+        });
+        html += `</div></div>`;
+      }
+    });
+    body.innerHTML = html;
+  }
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').classList.remove('show');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
 const params = new URLSearchParams(window.location.search);
 const s = params.get('s');
 if (s) decodeState(s);
