@@ -83,11 +83,8 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 @media(max-width:500px){.groups-grid{grid-template-columns:1fr;}}
 
 .gcard{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);border-radius:7px;overflow:hidden;}
-.gcard.france{border-color:rgba(0,90,200,0.5);background:rgba(0,40,120,0.15);}
 .ghead{background:rgba(196,158,43,0.12);border-bottom:1px solid rgba(196,158,43,0.25);padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
-.gcard.france .ghead{background:rgba(0,80,180,0.2);border-color:rgba(100,179,255,0.35);}
 .gletter{font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;color:#f0c84a;}
-.gcard.france .gletter{color:#6eb3ff;}
 .gbadge{font-size:9px;letter-spacing:1px;color:rgba(255,255,255,0.25);text-transform:uppercase;}
 
 .gmatches{padding:4px 0;}
@@ -237,7 +234,6 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 /* GROUP header clickable */
 .ghead{cursor:pointer;transition:background 0.15s;}
 .ghead:hover{background:rgba(240,200,74,0.2);}
-.gcard.france .ghead:hover{background:rgba(0,90,200,0.32);}
 
 /* PITCH tokens clickable */
 .pl{cursor:pointer;}
@@ -1391,6 +1387,14 @@ function tName(k, fallback) {
   return (COUNTRY[k] && COUNTRY[k][LANG]) || fallback;
 }
 
+// Country cells that are illuminated: the three hosts on every version,
+// plus the "home" nation only on its own language version.
+const HOST_KEYS = ['mex', 'can', 'usa'];
+const HOME_KEY_BY_LANG = { fr: 'fra', de: 'ger', en: 'eng' };
+function isHighlightTeam(k) {
+  return HOST_KEYS.includes(k) || HOME_KEY_BY_LANG[LANG] === k;
+}
+
 // Translate month names in date strings for EN/DE
 function trDate(str) {
   if (LANG === 'fr' || !str) return str;
@@ -1708,7 +1712,7 @@ function renderStandings(gi) {
     const nm = tName(row.k, row.n);
     html += `<div class="srow ${qc}" onclick="openSquad('${row.k}', '${row.f}', '${nm.replace(/'/g,"\\'")}')">
       <span class="srank ${rc}">${rank+1}</span>
-      <span class="steam${row.fr?' fr':''}">${row.f} ${nm}</span>
+      <span class="steam${isHighlightTeam(row.k)?' fr':''}">${row.f} ${nm}</span>
       <span class="sval">${row.p}</span>
       <span class="sval">${row.w}</span>
       <span class="sval">${row.d}</span>
@@ -1722,11 +1726,10 @@ function renderStandings(gi) {
 
 function renderGroup(gi) {
   const g = GROUPS[gi];
-  const isFr = g.id === 'I';
-  let html = `<div class="gcard${isFr?' france':''}">
+  let html = `<div class="gcard">
     <div class="ghead" onclick="openGroup(${gi})" title="${t('groupHint')}">
       <span class="gletter">${t('group')} ${g.id}</span>
-      <span class="gbadge">${isFr ? '🇫🇷 ' + tName('fra','France') : g.teams.map(tm=>tm.f).join(' ')}</span>
+      <span class="gbadge">${g.teams.map(tm=>tm.f).join(' ')}</span>
     </div>
     <div class="gmatches">`;
   g.matches.forEach((m, mi) => {
@@ -1753,18 +1756,17 @@ function renderGroup(gi) {
 // Simple-mode group card: rank the 4 teams (drag to reorder, no scores, no matches)
 function renderGroupSimple(gi) {
   const g = GROUPS[gi];
-  const isFr = g.id === 'I';
-  let html = `<div class="gcard${isFr?' france':''}">
+  let html = `<div class="gcard">
     <div class="ghead" onclick="openGroupSimple(${gi})" title="${t('groupHint')}">
       <span class="gletter">${t('group')} ${g.id}</span>
-      <span class="gbadge">${isFr ? '🇫🇷 ' + tName('fra','France') : g.teams.map(tm=>tm.f).join(' ')}</span>
+      <span class="gbadge">${g.teams.map(tm=>tm.f).join(' ')}</span>
     </div>
     <div class="gsimple">`;
   simpleOrder(gi).forEach(({tm, slot, rank}) => {
     const nm = tName(tm.k, tm.n);
     const qc = (rank===1||rank===2) ? 'q' : (rank===3 ? 'q3' : '');
     const rc = (rank===1||rank===2) ? 'r1' : (rank===3 ? 'r3' : 'unset');
-    html += `<div class="grow ${qc}${tm.fr?' fr':''}" data-kind="grp" data-gi="${gi}" data-slot="${slot}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
+    html += `<div class="grow ${qc}${isHighlightTeam(tm.k)?' fr':''}" data-kind="grp" data-gi="${gi}" data-slot="${slot}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
       <button type="button" class="pos-badge ${rc}">${rank>=1?rank:'?'}</button>
       <span class="gr-flag">${tm.f}</span>
       <span class="gr-name">${nm}</span>
@@ -1793,7 +1795,7 @@ function renderThirdsCard() {
     if (third) {
       const tm = third.tm; const nm = tName(tm.k, tm.n);
       cell = `<span class="gr-flag">${tm.f}</span><span class="gr-name">${nm}</span>`;
-      html += `<div class="grow th${nqClass}${tm.fr?' fr':''}" data-kind="th" data-gi="${gi}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
+      html += `<div class="grow th${nqClass}${isHighlightTeam(tm.k)?' fr':''}" data-kind="th" data-gi="${gi}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
         <button type="button" class="pos-badge ${rc}">${pos}</button>${cell}<span class="gr-tag">${g.id}</span></div>`;
     } else {
       cell = `<span class="gr-flag">🥉</span><span class="gr-name">${t('group')} ${g.id}</span>`;
@@ -2069,7 +2071,7 @@ function renderKoMatch(matchIdx, ctx, opts = {}) {
     if (!t) return '<span class="ko-team-label placeholder">—</span>';
     if (t._placeholder) return `<span class="ko-team-label placeholder">${t.label}</span>`;
     let cls = 'ko-team-label';
-    if (t.fr) cls += ' fr-team';
+    if (isHighlightTeam(t.k)) cls += ' fr-team';
     if (isWinner) cls += ' winner-team';
     if (isLoser) cls += ' loser-team';
     if (opts.isFinal && isWinner) cls += ' champion-team';
@@ -2093,7 +2095,7 @@ function renderKoMatch(matchIdx, ctx, opts = {}) {
       if (!team) return `<button class="ko-pick" disabled>—</button>`;
       if (team._placeholder) return `<button class="ko-pick" disabled>${team.label}</button>`;
       let c = 'ko-pick';
-      if (team.fr) c += ' fr-team';
+      if (isHighlightTeam(team.k)) c += ' fr-team';
       if (w === side) { c += ' sel'; if (opts.isFinal) c += ' champ'; }
       else if (w === 0 || w === 1) c += ' dim';
       const chk = (w === side) ? `<span class="ko-pick-chk">${opts.isFinal ? '🏆' : '✓'}</span>` : '';
@@ -2770,15 +2772,14 @@ function openPlayer(key, sec, idx) {
 // Enlarged group overview (opened from the group header bar)
 function openGroup(gi) {
   const g = GROUPS[gi];
-  const isFr = g.id === 'I';
-  document.getElementById('modal-flag').textContent = isFr ? '🇫🇷' : '🏆';
+  document.getElementById('modal-flag').textContent = '🏆';
   document.getElementById('modal-title').textContent = t('group') + ' ' + g.id;
   document.getElementById('modal-sub').textContent = t('groupSub');
   const body = document.getElementById('modal-body');
   let html = `<div class="gm-teams">`;
   g.teams.forEach((tm) => {
     const nm = tName(tm.k, tm.n);
-    html += `<div class="gm-team${tm.fr ? ' fr' : ''}" onclick="openLineup('${tm.k}')" title="${t('lineupSub')}">
+    html += `<div class="gm-team${isHighlightTeam(tm.k) ? ' fr' : ''}" onclick="openLineup('${tm.k}')" title="${t('lineupSub')}">
       <span class="gm-flag">${tm.f}</span>
       <span class="gm-name">${nm}</span>
       <button class="gm-xi" onclick="event.stopPropagation();openSquad('${tm.k}')" title="${t('modalSub')}">📋</button>
@@ -2816,8 +2817,7 @@ let openSimpleGi = null;
 function openGroupSimple(gi) {
   openSimpleGi = gi;
   const g = GROUPS[gi];
-  const isFr = g.id === 'I';
-  document.getElementById('modal-flag').textContent = isFr ? '🇫🇷' : '🏆';
+  document.getElementById('modal-flag').textContent = '🏆';
   document.getElementById('modal-title').textContent = t('group') + ' ' + g.id;
   document.getElementById('modal-sub').textContent = t('groupSub');
   document.getElementById('modal-body').innerHTML = renderSimpleGroupBody(gi);
@@ -2828,7 +2828,7 @@ function renderSimpleGroupBody(gi) {
   simpleOrder(gi).forEach(({tm, slot, rank}) => {
     const nm = tName(tm.k, tm.n);
     const rc = (rank===1||rank===2) ? 'r1' : (rank===3 ? 'r3' : 'unset');
-    html += `<div class="gm-team${tm.fr ? ' fr' : ''}" data-kind="grp" data-gi="${gi}" data-slot="${slot}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
+    html += `<div class="gm-team${isHighlightTeam(tm.k) ? ' fr' : ''}" data-kind="grp" data-gi="${gi}" data-slot="${slot}" onpointerdown="rowDown(event,this)" title="${t('rowDragHint')}">
       <button type="button" class="pos-badge gm-rankbadge ${rc}">${rank>=1?rank:'?'}</button>
       <span class="gm-flag">${tm.f}</span>
       <span class="gm-name">${nm}</span>
