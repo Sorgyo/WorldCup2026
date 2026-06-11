@@ -359,6 +359,9 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 .mp-pos{width:52px;height:52px;border-radius:10px;background:rgba(255,255,255,0.05);border:0.5px solid rgba(255,255,255,0.18);color:#fff;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;cursor:pointer;transition:all 0.15s;}
 .mp-pos:hover{border-color:rgba(240,200,74,0.6);background:rgba(240,200,74,0.12);}
 .mp-pos.active{background:#f0c84a;border-color:#f0c84a;color:#0d1f3c;}
+.mp-pos.glow{display:flex;align-items:center;justify-content:center;border-color:rgba(240,200,74,0.35);box-shadow:0 0 10px rgba(240,200,74,0.22),inset 0 0 6px rgba(240,200,74,0.08);text-shadow:0 0 8px rgba(240,200,74,0.55);}
+.mp-pos.glow:hover{box-shadow:0 0 14px rgba(240,200,74,0.4),inset 0 0 8px rgba(240,200,74,0.14);}
+.mp-pos.glow.active{text-shadow:none;box-shadow:0 0 14px rgba(240,200,74,0.55);}
 /* position badge in group standings */
 .pos-badge{width:20px;height:20px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.55);font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;justify-content:center;transition:all 0.15s;font-variant-numeric:tabular-nums;}
 .pos-badge:hover{border-color:#f0c84a;color:#f0c84a;}
@@ -460,6 +463,9 @@ body{background:#0a1628;min-height:100vh;font-family:'Roboto Condensed',sans-ser
 .mode-btn{background:transparent;border:none;color:rgba(255,255,255,0.5);font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border-radius:6px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
 .mode-btn:hover{color:rgba(255,255,255,0.85);}
 .mode-btn.active{background:#f0c84a;color:#0a1628;}
+.mode-btn.locked{opacity:0.35;cursor:not-allowed;}
+.mode-btn.locked:hover{color:rgba(255,255,255,0.5);}
+.mode-btn.locked::after{content:'🔒';font-size:10px;}
 
 /* section ordering — flex column so simple mode can move awards under the bracket */
 #phases{display:flex;flex-direction:column;}
@@ -1646,7 +1652,9 @@ const WC_GOAL_NATS = {
 let state = new Array(254).fill(-1);
 
 // View mode: 'depth' (full scores, matches, stats) or 'simple' (rank teams only)
-let MODE = 'depth';
+// Depth mode is locked for now: the app runs in simple mode only.
+const DEPTH_LOCKED = true;
+let MODE = 'simple';
 // Is a group fully resolvable in simple mode? (ranks 1,2,3 assigned among the 4 teams)
 function groupResolvedSimple(gi){
   const seen = {};
@@ -1929,9 +1937,9 @@ const T = {
     posShortG:'GAR', posShortD:'DÉF', posShortM:'MIL', posShortA:'ATT',
     swapGkErr:'Un gardien ne peut être échangé qu\'avec un gardien', statsSub:'tous groupes',
     resetComp:'Réinitialiser', saveComp:'Sauvegarder', compSaved:'Composition sauvegardée', compReset:'Composition réinitialisée', compActions:'Joueur', clearStats:'Effacer les stats de ce joueur',
-    modeSimple:'Simple', modeDepth:'Détaillé',
+    modeSimple:'Simple', modeDepth:'Détaillé', modeLockedHint:'Bientôt disponible',
     legendTipSimple:'💡 Clique sur un numéro pour classer · sur une équipe pour l\'effectif',
-    simpleRankHint:'Clique sur un numéro pour classer', simpleGroupHint:'Classe les équipes (clique sur le numéro), puis clique une équipe pour son effectif ou sa composition.',
+    simpleRankHint:'Clique sur un numéro pour classer', simpleGroupHint:'✨ Glisse les équipes pour bâtir ton classement · appuie sur une équipe pour tout savoir',
     teamChoiceHint:'Effectif ou composition', teamChoiceTitle:'Que veux-tu voir ?',
     optSquad:'Effectif complet', optSquadDesc:'Liste des 26 joueurs sélectionnés', optLineup:'Composition', optLineupDesc:'Onze de départ · échange des joueurs',
     posLabel1:'1er', posLabel2:'2e', posLabel3:'3e', posLabel4:'4e',
@@ -1996,9 +2004,9 @@ const T = {
     posShortG:'GK', posShortD:'DEF', posShortM:'MID', posShortA:'FWD',
     swapGkErr:'A goalkeeper can only be swapped with a goalkeeper', statsSub:'all groups',
     resetComp:'Reset', saveComp:'Save', compSaved:'Line-up saved', compReset:'Line-up reset', compActions:'Player', clearStats:'Clear this player\'s stats',
-    modeSimple:'Simple', modeDepth:'In-depth',
+    modeSimple:'Simple', modeDepth:'In-depth', modeLockedHint:'Coming soon',
     legendTipSimple:'💡 Tap a number to rank · tap a team for its squad',
-    simpleRankHint:'Tap a number to rank', simpleGroupHint:'Rank the teams (tap the number), then tap a team for its squad or line-up.',
+    simpleRankHint:'Tap a number to rank', simpleGroupHint:'✨ Drag the teams to build your ranking · tap a team to discover everything',
     teamChoiceHint:'Squad or line-up', teamChoiceTitle:'What would you like?',
     optSquad:'Full squad', optSquadDesc:'List of the 26 called-up players', optLineup:'Line-up', optLineupDesc:'Starting eleven · swap players',
     posLabel1:'1st', posLabel2:'2nd', posLabel3:'3rd', posLabel4:'4th',
@@ -2063,9 +2071,9 @@ const T = {
     posShortG:'TW', posShortD:'ABW', posShortM:'MF', posShortA:'ST',
     swapGkErr:'Ein Torhüter kann nur mit einem Torhüter getauscht werden', statsSub:'alle Gruppen',
     resetComp:'Zurücksetzen', saveComp:'Speichern', compSaved:'Aufstellung gespeichert', compReset:'Aufstellung zurückgesetzt', compActions:'Spieler', clearStats:'Statistik dieses Spielers löschen',
-    modeSimple:'Einfach', modeDepth:'Detailliert',
+    modeSimple:'Einfach', modeDepth:'Detailliert', modeLockedHint:'Bald verfügbar',
     legendTipSimple:'💡 Auf eine Zahl tippen zum Einordnen · auf ein Team für den Kader',
-    simpleRankHint:'Auf eine Zahl tippen zum Einordnen', simpleGroupHint:'Teams einordnen (auf die Zahl tippen), dann ein Team für Kader oder Aufstellung antippen.',
+    simpleRankHint:'Auf eine Zahl tippen zum Einordnen', simpleGroupHint:'✨ Ziehe die Teams in deine Reihenfolge · tippe auf ein Team, um alles zu erfahren',
     teamChoiceHint:'Kader oder Aufstellung', teamChoiceTitle:'Was möchtest du sehen?',
     optSquad:'Vollständiger Kader', optSquadDesc:'Liste der 26 nominierten Spieler', optLineup:'Aufstellung', optLineupDesc:'Startelf · Spieler tauschen',
     posLabel1:'1.', posLabel2:'2.', posLabel3:'3.', posLabel4:'4.',
@@ -2193,11 +2201,18 @@ function applyMode() {
   const phases = document.getElementById('phases');
   if (phases) phases.classList.toggle('mode-simple', MODE === 'simple');
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === MODE));
+  const depthBtn = document.getElementById('mode-btn-depth');
+  if (depthBtn) {
+    depthBtn.disabled = DEPTH_LOCKED;
+    depthBtn.classList.toggle('locked', DEPTH_LOCKED);
+    if (DEPTH_LOCKED) depthBtn.title = t('modeLockedHint');
+  }
   updateModeTexts();
 }
 
 function setMode(mode) {
   if (mode !== 'simple' && mode !== 'depth') return;
+  if (DEPTH_LOCKED && mode === 'depth') return;
   if (mode === MODE) return;
   MODE = mode;
   closeMini();
@@ -3848,13 +3863,12 @@ function openPosChooser(gi, slot) {
   const cur = getManualPos(gi, slot);
   let btns = '';
   for (let p=1; p<=4; p++) {
-    const lbl = t('posLabel'+p);
-    btns += `<button class="mp-b${p===cur?' mp-swap':''}" onclick="setPos(${gi},${slot},${p})" style="${p===cur?'border-color:#f0c84a;background:rgba(240,200,74,0.16);color:#f0c84a;':''}">${p}. ${lbl}</button>`;
+    btns += `<button class="mp-pos glow${p===cur?' active':''}" onclick="setPos(${gi},${slot},${p})">${p}</button>`;
   }
   const clearBtn = cur ? `<button class="mp-clear" onclick="setPos(${gi},${slot},0)">✕ ${t('posClear')}</button>` : '';
   miniPop(`<div class="mp-title">${tm.f} ${tName(tm.k, tm.n)}</div>
     <div class="mp-sub">${t('posChooseTitle')}</div>
-    <div class="mp-btns">${btns}</div>
+    <div class="mp-posrow">${btns}</div>
     ${clearBtn}
     <button class="mp-cancel" onclick="closeMini()">${t('cancel')}</button>`);
 }
@@ -4006,7 +4020,7 @@ const x = params.get('x');
 const lParam = params.get('l');
 const mParam = params.get('m');
 if (lParam && T[lParam]) LANG = lParam;
-if (mParam === 'simple' || mParam === 'depth') MODE = mParam;
+if (mParam === 'simple' || (mParam === 'depth' && !DEPTH_LOCKED)) MODE = mParam;
 if (s) decodeState(s);
 if (x) decodeExt(x);
 bindStaticUi();
