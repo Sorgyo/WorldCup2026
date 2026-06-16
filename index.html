@@ -7098,18 +7098,30 @@
     const ACCT_KEY = 'm26_acct_v1';
     let acctPending = null;   // blob captured when "Save" is pressed while logged out
 
+    // localStorage can be blocked (Safari on file://, private browsing), which used to
+    // make account creation fail outright. Fall back to an in-memory store so register/
+    // login still work for the session (persistence then needs http:// or Export backup).
+    const ACCT_MEM = {};
+    let acctUseMem = false;
+    function acctLS() {
+      if (acctUseMem) return null;
+      try { localStorage.setItem('__m26t', '1'); localStorage.removeItem('__m26t'); return localStorage; }
+      catch (e) { acctUseMem = true; return null; }
+    }
     function acctRead() {
-      try { return JSON.parse(localStorage.getItem(ACCT_KEY)) || { users: {}, session: null }; }
-      catch (e) { return { users: {}, session: null }; }
+      try {
+        const ls = acctLS();
+        const raw = ls ? ls.getItem(ACCT_KEY) : ACCT_MEM[ACCT_KEY];
+        return JSON.parse(raw) || { users: {}, session: null };
+      } catch (e) { return { users: {}, session: null }; }
     }
     function acctWrite(store) {
-      try { localStorage.setItem(ACCT_KEY, JSON.stringify(store)); return true; }
-      catch (e) { return false; }
+      const raw = JSON.stringify(store);
+      const ls = acctLS();
+      if (ls) { try { ls.setItem(ACCT_KEY, raw); return true; } catch (e) { acctUseMem = true; } }
+      ACCT_MEM[ACCT_KEY] = raw; return true;
     }
-    function acctStorageOk() {
-      try { localStorage.setItem('__m26t', '1'); localStorage.removeItem('__m26t'); return true; }
-      catch (e) { return false; }
-    }
+    function acctStorageOk() { return true; }   // memory fallback guarantees a backend
     function acctHash(name, pin) {
       let h = 0x811c9dc5; const s = name.trim().toLowerCase() + '|' + pin + '|m26';
       for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
