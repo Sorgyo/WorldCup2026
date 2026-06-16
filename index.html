@@ -2413,6 +2413,7 @@
       align-items: center;
       gap: 8px;
       min-width: 0;
+      cursor: pointer;
     }
 
     .fx-team.right {
@@ -2439,6 +2440,10 @@
 
     .fx-team.fr .fx-name {
       color: #6eb3ff;
+    }
+
+    .fx-team:hover .fx-name {
+      color: #f0c84a;
     }
 
     .fx-when {
@@ -8944,9 +8949,9 @@
       ms.forEach(m => {
         const t1 = g.teams[m.t1], t2 = g.teams[m.t2];
         html += `<div class="fx-match">
-      <span class="fx-team right${isHighlightTeam(t1.k) ? ' fr' : ''}"><span class="fx-name">${tName(t1.k, t1.n)}</span><span class="gm-flag">${t1.f}</span></span>
+      <span class="fx-team right${isHighlightTeam(t1.k) ? ' fr' : ''}" onclick="openTeamChoice('${t1.k}')" title="${t('teamChoiceHint')}"><span class="fx-name">${tName(t1.k, t1.n)}</span><span class="gm-flag">${t1.f}</span></span>
       <span class="fx-when"><span class="fx-date">${trDate(m.d)}</span><span class="fx-time">${trTime(m.h)}</span></span>
-      <span class="fx-team left${isHighlightTeam(t2.k) ? ' fr' : ''}"><span class="gm-flag">${t2.f}</span><span class="fx-name">${tName(t2.k, t2.n)}</span></span>
+      <span class="fx-team left${isHighlightTeam(t2.k) ? ' fr' : ''}" onclick="openTeamChoice('${t2.k}')" title="${t('teamChoiceHint')}"><span class="gm-flag">${t2.f}</span><span class="fx-name">${tName(t2.k, t2.n)}</span></span>
     </div>`;
       });
       html += `</div>`;
