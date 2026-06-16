@@ -85,6 +85,15 @@
       .root>* {
         text-align: left;
       }
+
+      .hdr h1 {
+        font-size: 26px;
+        letter-spacing: 3px;
+      }
+
+      .hdr h2 {
+        letter-spacing: 5px;
+      }
     }
 
     .hdr {
@@ -274,6 +283,11 @@
       letter-spacing: 0.2px;
       line-height: 1.45;
       margin-top: 12px;
+    }
+
+    .account-note-privacy {
+      margin-top: 4px;
+      color: rgba(125, 220, 138, 0.65);
     }
 
     .account-session-row {
@@ -4538,7 +4552,7 @@
     </div>
 
     <div class="hdr">
-      <h1>FIFA World Cup 2026</h1>
+      <h1>Paonyo's FIFA World Cup 2026</h1>
       <h2>USA · Canada · México</h2>
       <div class="hdr-bar">
         <span data-i18n="headerDates">11 juin – 19 juillet 2026</span>
@@ -5105,7 +5119,7 @@
         optSquad: 'Effectif complet', optSquadDesc: 'Liste des 26 joueurs sélectionnés', optLineup: 'Composition', optLineupDesc: 'Onze de départ · échange des joueurs',
         posLabel1: '1er', posLabel2: '2e', posLabel3: '3e', posLabel4: '4e',
         btnExport: '📥 Télécharger', btnLogin: 'Se connecter', btnLogout: 'Déconnexion',
-        phUser: 'Identifiant', loginNote: 'Identifiant + code à 4 chiffres pour enregistrer tes pronostics sur cet appareil.',
+        phUser: 'Identifiant', loginNote: 'Identifiant + code à 4 chiffres pour enregistrer tes pronostics sur cet appareil.', noShareNote: '🔒 Aucun partage de données personnelles',
         btnSave: '💾 Sauvegarder', btnRegister: 'Créer un compte', phPin: 'Code · 4 chiffres',
         acctEyebrow: 'Compte', acctTitle: 'Sauvegarde tes pronostics',
         btnExportAcct: '↓ Exporter le compte', acctExported: 'Compte exporté',
@@ -5201,7 +5215,7 @@
         optSquad: 'Full squad', optSquadDesc: 'List of the 26 called-up players', optLineup: 'Line-up', optLineupDesc: 'Starting eleven · swap players',
         posLabel1: '1st', posLabel2: '2nd', posLabel3: '3rd', posLabel4: '4th',
         btnExport: '📥 Download', btnLogin: 'Log in', btnLogout: 'Log out',
-        phUser: 'Username', loginNote: 'Username + 4-digit code to save your predictions on this device.',
+        phUser: 'Username', loginNote: 'Username + 4-digit code to save your predictions on this device.', noShareNote: '🔒 No sharing of personal data',
         btnSave: '💾 Save', btnRegister: 'Create account', phPin: 'Code · 4 digits',
         acctEyebrow: 'Account', acctTitle: 'Save your predictions',
         btnExportAcct: '↓ Export account', acctExported: 'Account exported',
@@ -5297,7 +5311,7 @@
         optSquad: 'Vollständiger Kader', optSquadDesc: 'Liste der 26 nominierten Spieler', optLineup: 'Aufstellung', optLineupDesc: 'Startelf · Spieler tauschen',
         posLabel1: '1.', posLabel2: '2.', posLabel3: '3.', posLabel4: '4.',
         btnExport: '📥 Herunterladen', btnLogin: 'Anmelden', btnLogout: 'Abmelden',
-        phUser: 'Benutzername', loginNote: 'Benutzername + 4-stelliger Code, um deine Tipps auf diesem Gerät zu speichern.',
+        phUser: 'Benutzername', loginNote: 'Benutzername + 4-stelliger Code, um deine Tipps auf diesem Gerät zu speichern.', noShareNote: '🔒 Keine Weitergabe persönlicher Daten',
         btnSave: '💾 Speichern', btnRegister: 'Konto erstellen', phPin: 'Code · 4 Ziffern',
         acctEyebrow: 'Konto', acctTitle: 'Speichere deine Tipps',
         btnExportAcct: '↓ Konto exportieren', acctExported: 'Konto exportiert',
@@ -5421,8 +5435,8 @@
     let state = new Array(254).fill(-1);
 
     // View mode: 'depth' (full scores, matches, stats) or 'simple' (rank teams only)
-    // Depth mode is locked for now: the app runs in simple mode only.
-    const DEPTH_LOCKED = true;
+    // Depth (detailed) mode is unlocked: both simple and detailed modes are available.
+    const DEPTH_LOCKED = false;
     let MODE = 'simple';
     // Is a group fully resolvable in simple mode? (ranks 1,2,3 assigned among the 4 teams)
     function groupResolvedSimple(gi) {
@@ -7245,6 +7259,7 @@
           '<button class="btn account-go" id="acct-register" type="button">' + t('btnRegister') + '</button>' +
           '</div>' +
           '<div class="account-note">' + t('loginNote') + '</div>' +
+          '<div class="account-note account-note-privacy">' + emo(t('noShareNote')) + '</div>' +
           '</div>';
       }
       box.querySelectorAll('.account-ico').forEach(el => el.innerHTML = emo(el.innerHTML));
@@ -7358,14 +7373,14 @@
         const h2bGrp = hasH2H(t1.k, t2.k) ? `<button class="h2h-btn" onclick="openH2H('${t1.k}','${t2.k}')" title="${t('h2hTooltip')}">H2H</button>` : '';
         html += `<div class="gmatch">
       <span class="mdate">${trDate(m.d)}</span>
-      <span class="mt1" onclick="openLineup('${t1.k}')" title="${t('lineupHint')}">${t1.f} ${n1}</span>
+      <span class="mt1" onclick="openTeamChoice('${t1.k}')" title="${t('teamChoiceHint')}">${t1.f} ${n1}</span>
       <div class="mscore">
         <input class="sinput" type="number" min="0" max="20" value="${v1 >= 0 ? v1 : ''}" placeholder="-" data-gi="${gi}" data-mi="${mi}" data-side="0" oninput="handleInput(this)">
         <span class="sdiv">:</span>
         <input class="sinput" type="number" min="0" max="20" value="${v2 >= 0 ? v2 : ''}" placeholder="-" data-gi="${gi}" data-mi="${mi}" data-side="1" oninput="handleInput(this)">
         ${h2bGrp}
       </div>
-      <span class="mt2" onclick="openLineup('${t2.k}')" title="${t('lineupHint')}">${n2} ${t2.f}</span>
+      <span class="mt2" onclick="openTeamChoice('${t2.k}')" title="${t('teamChoiceHint')}">${n2} ${t2.f}</span>
       <span class="mtime">${trTime(m.h)}</span>
     </div>`;
       });
@@ -8907,7 +8922,7 @@
       let html = `<div class="gm-teams">`;
       g.teams.forEach((tm) => {
         const nm = tName(tm.k, tm.n);
-        html += `<div class="gm-team${isHighlightTeam(tm.k) ? ' fr' : ''}" onclick="openLineup('${tm.k}')" title="${t('lineupSub')}">
+        html += `<div class="gm-team${isHighlightTeam(tm.k) ? ' fr' : ''}" onclick="openTeamChoice('${tm.k}')" title="${t('teamChoiceHint')}">
       <span class="gm-flag">${tm.f}</span>
       <span class="gm-name">${nm}</span>
       <button class="gm-xi" onclick="event.stopPropagation();openSquad('${tm.k}')" title="${t('modalSub')}">📋</button>
