@@ -4411,6 +4411,156 @@
       font-size: 16px;
       font-style: italic;
     }
+
+    /* ============ CROWD BACKDROP — pointillist stadium crowd ============ */
+    /* Painted once on a fixed canvas (see paintCrowdBg): thousands of tiny
+       colourful "spectator" dots on the navy night, denser toward the screen
+       edges so the content column stays readable. */
+    #crowd-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .root {
+      z-index: 1;
+    }
+
+    /* ============ REFLEXIO — radial "balloon" knockout bracket ============ */
+    /* Crowd-art palette: pitch-gradient centre, one colour per ring
+       (final gold → demis orange → quarts rose → huitièmes bleu), and a
+       pointillist crowd ring around the outer teams. */
+    .rb-wrap {
+      margin: 14px 0 4px;
+    }
+
+    .rb-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      container-type: inline-size;
+    }
+
+    .rb-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .rb-balloon {
+      position: absolute;
+      aspect-ratio: 1 / 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      padding: 0;
+      line-height: 1;
+      border: 2px solid var(--rb-c, #f0c84a);
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0) 48%), #13284b;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 -4px 10px rgba(0, 0, 0, 0.35);
+      font-size: calc(var(--rb-fs, 4) * 1cqw);
+      transition: transform 0.15s;
+      user-select: none;
+    }
+
+    .rb-balloon:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 3;
+    }
+
+    .rb-balloon .svgflag {
+      width: 62%;
+      height: 62%;
+    }
+
+    .rb-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 24%;
+      text-align: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .rb-cup {
+      font-size: 7cqw;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.55));
+    }
+
+    .rb-champ-flag {
+      font-size: 4.5cqw;
+      margin-top: 1cqw;
+    }
+
+    .rb-champ-flag .svgflag {
+      width: 5cqw;
+      height: 5cqw;
+    }
+
+    .rb-champ-name {
+      display: inline-block;
+      margin-top: 0.8cqw;
+      padding: 0.4cqw 1.2cqw;
+      font-size: 2.8cqw;
+      letter-spacing: 1.5px;
+      color: #f0c84a;
+      text-transform: uppercase;
+      background: rgba(10, 22, 40, 0.72);
+      border-radius: 999px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .rb-legend {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .rb-leg {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 15px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .rb-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .rb-third {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.65);
+      letter-spacing: 0.5px;
+    }
+
+    .rb-hint {
+      margin-top: 6px;
+      text-align: center;
+      font-size: 15px;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.4);
+    }
   </style>
 
   <style>
@@ -4543,6 +4693,7 @@
 </head>
 
 <body>
+  <canvas id="crowd-bg" aria-hidden="true"></canvas>
   <div class="root" id="capture-root">
 
     <div class="lang-switch" id="lang-switch">
@@ -5152,6 +5303,7 @@
         rl_semi: 'Demi-finales', rl_quarter: 'Quarts de finale', rl_r16: 'Huitièmes de finale',
         rl_secondround: '2e phase de groupes', rl_group: 'Phase de groupes',
         yrCup: 'Coupe du Monde', yrSub: 'Parcours', yrBack: '← Historique', yrLoading: 'Chargement du parcours…', yrErr: 'Données indisponibles.',
+        rbBtn: 'Tableau final', rbSub: 'Phases finales — tableau', rbNone: 'Pas de tableau à élimination directe pour cette édition.', rbHint: 'Touchez un drapeau pour ouvrir le parcours de l\'équipe.',
         yrW: 'V', yrD: 'N', yrL: 'D', yrGoals: 'Buts', yrAet: 'a.p.', yrPens: 't.a.b.', yrWo: 'forfait',
         yrGroup: 'Groupe', yrFinalRound: 'Poule finale', yrFirstRound: '1er tour', yrPrelim: 'Tour préliminaire', yrReplay: 'rejoué', yrPlayoff: 'Barrage',
         mdHt: 'mi-temps', ogMark: 'csc', mdNoScorers: 'Buteurs non disponibles pour cette édition.',
@@ -5248,6 +5400,7 @@
         rl_semi: 'Semi-finals', rl_quarter: 'Quarter-finals', rl_r16: 'Round of 16',
         rl_secondround: '2nd group stage', rl_group: 'Group stage',
         yrCup: 'World Cup', yrSub: 'Tournament run', yrBack: '← History', yrLoading: 'Loading tournament run…', yrErr: 'Data unavailable.',
+        rbBtn: 'Final bracket', rbSub: 'Knockout stage — bracket', rbNone: 'No knockout bracket for this edition.', rbHint: 'Tap a flag to open that team\'s tournament run.',
         yrW: 'W', yrD: 'D', yrL: 'L', yrGoals: 'Goals', yrAet: 'aet', yrPens: 'pens', yrWo: 'w/o',
         yrGroup: 'Group', yrFinalRound: 'Final round', yrFirstRound: 'First round', yrPrelim: 'Preliminary round', yrReplay: 'replay', yrPlayoff: 'Play-off',
         mdHt: 'HT', ogMark: 'o.g.', mdNoScorers: 'Scorers not available for this edition.',
@@ -5344,6 +5497,7 @@
         rl_semi: 'Halbfinale', rl_quarter: 'Viertelfinale', rl_r16: 'Achtelfinale',
         rl_secondround: 'Zweite Gruppenphase', rl_group: 'Gruppenphase',
         yrCup: 'Weltmeisterschaft', yrSub: 'Turnierverlauf', yrBack: '← Geschichte', yrLoading: 'Turnierverlauf wird geladen…', yrErr: 'Daten nicht verfügbar.',
+        rbBtn: 'Turnierbaum', rbSub: 'K.-o.-Phase — Turnierbaum', rbNone: 'Kein K.-o.-Turnierbaum für diese Ausgabe.', rbHint: 'Flagge antippen, um den Turnierweg zu öffnen.',
         yrW: 'S', yrD: 'U', yrL: 'N', yrGoals: 'Tore', yrAet: 'n.V.', yrPens: 'i.E.', yrWo: 'kampflos',
         yrGroup: 'Gruppe', yrFinalRound: 'Finalrunde', yrFirstRound: '1. Runde', yrPrelim: 'Vorrunde', yrReplay: 'Wdh.', yrPlayoff: 'Entscheidungsspiel',
         mdHt: 'HZ', ogMark: 'ET', mdNoScorers: 'Torschützen für diese Ausgabe nicht verfügbar.',
@@ -8224,6 +8378,7 @@
         const escT = myName.replace(/'/g, "\\'");
         html += `<button class="hs-btn" onclick="openHistSquad(${y},'${escT}')">📋 ${t('hsSub')} ${y}</button>`;
       }
+      if (rbRounds(cup)) html += `<button class="hs-btn" onclick="openWcBracket(${y})">🏆 ${t('rbBtn')} ${y}</button>`;
       html += `<div class="wcy-list">${rows}</div>`;
       html += `<div id="wcy-awards"></div>`; // filled async with the edition's award winners
       return html;
@@ -8342,6 +8497,187 @@
         });
       });
     }
+    // ===== REFLEXIO — radial "balloon" bracket of an edition's knockout stage ==
+    // Crowd-art palette (after the pointillist stadium series): pitch-gradient
+    // centre, one colour per ring, and a dotted crowd around the outer teams.
+    const RB_RING = ['#f0c84a', '#f2803b', '#f0568c', '#4da6e8'];           // final → outer
+    const RB_CROWD = ['#ff5d6c', '#ff9046', '#f5d848', '#6fe08a', '#4da6e8', '#7f6cff', '#ff7fc1', '#4be3c3', '#f2f2f2'];
+    const RB_RADII = { 2: [180, 416], 3: [160, 300, 416], 4: [150, 258, 344, 416] };
+    // Deterministic PRNG so the crowd dots are stable for a given seed
+    function rbRand(seed) {
+      return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    }
+    function rbTier(m) {
+      if (m.group) return -1;
+      const r = m.round || '';
+      if (r === 'Final') return 0;
+      if (/^Semi/i.test(r)) return 1;
+      if (/^Quarter/i.test(r)) return 2;
+      if (r === 'Round of 16' || /^First round/i.test(r) || r === 'Preliminary round') return 3;
+      return -1;
+    }
+    function rbWinner(m) {
+      if (!m.score) return null;
+      if (m.score.p) return m.score.p[0] > m.score.p[1] ? m.team1 : m.team2;
+      const f = m.score.et || m.score.ft;
+      return f[0] > f[1] ? m.team1 : f[1] > f[0] ? m.team2 : null;
+    }
+    // Knockout rounds inner→outer: [finals, semis, …]; null when nothing drawable
+    // (1950 final round-robin, 1974/78 second group stage feeding straight into a final).
+    function rbRounds(cup) {
+      const by = [[], [], [], []];
+      cup.matches.forEach(m => { const tr = rbTier(m); if (tr >= 0) by[tr].push(m); });
+      while (by.length && !by[by.length - 1].length) by.pop();
+      if (by.length < 2) return null;
+      for (const r of by) if (!r.length) return null;
+      return by;
+    }
+    function rbMatchTip(m) {
+      const n1 = wcNatMeta(m.team1), n2 = wcNatMeta(m.team2);
+      if (!m.score) return `${wcRoundLabel(m)} · ${n1.name} – ${n2.name}`;
+      const f = m.score.et || m.score.ft;
+      let s = `${wcRoundLabel(m)} · ${n1.name} ${f[0]}–${f[1]} ${n2.name}`;
+      if (m.score.p) s += ` (${m.score.p[0]}–${m.score.p[1]} ${t('yrPens')})`;
+      return s;
+    }
+    // Binary tree walked back from the final; replayed ties resolve to the decisive
+    // leg (a drawn first match has no winner, so find() lands on the replay).
+    function rbBuild(rounds) {
+      const fm = rounds[0][rounds[0].length - 1];
+      const mk = (team, tier, match) => {
+        const node = { team, tier, match, kids: [] };
+        const nxt = rounds[tier + 1];
+        const cm = nxt ? nxt.find(x => rbWinner(x) === team) : null;
+        if (cm) node.kids = [mk(cm.team1, tier + 1, cm), mk(cm.team2, tier + 1, cm)];
+        return node;
+      };
+      return { final: fm, sides: [mk(fm.team1, 0, fm), mk(fm.team2, 0, fm)] };
+    }
+    // Leaves get evenly spaced angles inside the side's half-circle; every parent
+    // sits at the mid-angle of its children, so the finalists end up east & west.
+    function rbLayout(side, a0, a1) {
+      const leaves = [];
+      (function walk(n) { if (!n.kids.length) leaves.push(n); n.kids.forEach(walk); })(side);
+      leaves.forEach((n, i) => { n.a = a0 + (i + 0.5) * (a1 - a0) / leaves.length; });
+      (function up(n) { n.kids.forEach(up); if (n.kids.length) n.a = (n.kids[0].a + n.kids[1].a) / 2; })(side);
+    }
+    function rbHTML(cup, rounds, y) {
+      const T = rounds.length, radii = RB_RADII[T] || RB_RADII[4];
+      const tree = rbBuild(rounds);
+      rbLayout(tree.sides[0], -90, 90);
+      rbLayout(tree.sides[1], 90, 270);
+      const nodes = [];
+      tree.sides.forEach(function flat(n) { nodes.push(n); n.kids.forEach(flat); });
+      const P = (r, a) => [500 + r * Math.cos(a * Math.PI / 180), 500 + r * Math.sin(a * Math.PI / 180)];
+      const ring = tier => RB_RING[tier] || RB_RING[RB_RING.length - 1];
+      // connector: radial run out of the child, an arc at mid-radius, radial run into the parent
+      let paths = '';
+      nodes.forEach(n => n.kids.forEach(k => {
+        const rm = (radii[n.tier] + radii[k.tier]) / 2;
+        const [x1, y1] = P(radii[k.tier], k.a), [xa, ya] = P(rm, k.a), [xb, yb] = P(rm, n.a), [x2, y2] = P(radii[n.tier], n.a);
+        const sweep = n.a > k.a ? 1 : 0;
+        paths += `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${xa.toFixed(1)} ${ya.toFixed(1)} A${rm} ${rm} 0 0 ${sweep} ${xb.toFixed(1)} ${yb.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${ring(k.tier)}"/>`;
+      }));
+      tree.sides.forEach(s => {
+        const [x1, y1] = P(radii[0], s.a), [x2, y2] = P(112, s.a);
+        paths += `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${ring(0)}"/>`;
+      });
+      // pointillist crowd around the outer ring
+      const rnd = rbRand(y);
+      let crowd = '';
+      for (let i = 0; i < 260; i++) {
+        const a = rnd() * 360, r = 464 + rnd() * 28, s = 2 + rnd() * 2.6;
+        const [cx, cy] = P(r, a);
+        crowd += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${s.toFixed(1)}" fill="${RB_CROWD[(rnd() * RB_CROWD.length) | 0]}" opacity="${(0.3 + rnd() * 0.45).toFixed(2)}"/>`;
+      }
+      const svg = `<svg class="rb-lines" viewBox="0 0 1000 1000" fill="none" aria-hidden="true">
+      <defs><linearGradient id="rb-pitch" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4da6e8"/><stop offset="0.45" stop-color="#f0568c"/>
+        <stop offset="0.72" stop-color="#f2803b"/><stop offset="1" stop-color="#f5d848"/>
+      </linearGradient></defs>
+      ${crowd}
+      <g stroke-width="2.5" opacity="0.6" stroke-linecap="round">${paths}</g>
+      <circle cx="500" cy="500" r="100" fill="url(#rb-pitch)" opacity="0.95"/>
+      <g stroke="#fff" opacity="0.5" stroke-width="1.5"><line x1="410" y1="500" x2="590" y2="500"/><circle cx="500" cy="500" r="32"/></g>
+    </svg>`;
+      let balloons = '';
+      nodes.forEach(n => {
+        const meta = wcNatMeta(n.team);
+        const d = 8.4 + (T - 1 - n.tier) * 1.4;                 // diameter in % — bigger toward the centre
+        const [bx, by] = P(radii[n.tier], n.a);
+        const esc = n.team.replace(/'/g, "\\'");
+        const tip = rbMatchTip(n.match).replace(/"/g, '&quot;');
+        balloons += `<button class="rb-balloon" style="left:${(bx / 10).toFixed(2)}%;top:${(by / 10).toFixed(2)}%;width:${d.toFixed(1)}%;--rb-c:${ring(n.tier)};--rb-fs:${(d * 0.5).toFixed(1)}" title="${tip}" aria-label="${meta.name} — ${tip}" onclick="rbOpenTeam('${esc}',${y})">${meta.flag}</button>`;
+      });
+      const champ = rbWinner(tree.final);
+      const cn = champ ? wcNatMeta(champ) : null;
+      const center = `<div class="rb-center"><div class="rb-cup">🏆</div>${cn ? `<div class="rb-champ-flag">${cn.flag}</div><div class="rb-champ-name">${cn.name}</div>` : ''}</div>`;
+      const legKeys = ['stF', 'rl_semi', 'rl_quarter', 'rl_r16'];
+      let legend = '<div class="rb-legend">';
+      for (let i = T - 1; i >= 0; i--) legend += `<span class="rb-leg"><span class="rb-dot" style="background:${ring(i)}"></span>${t(legKeys[i])}</span>`;
+      legend += '</div>';
+      const tp = cup.matches.find(m => /third/i.test(m.round || ''));
+      let third = '';
+      if (tp && tp.score) {
+        const f = tp.score.et || tp.score.ft, n1 = wcNatMeta(tp.team1), n2 = wcNatMeta(tp.team2);
+        third = `<div class="rb-third">🥉 ${t('stP3')} · ${n1.flag} ${n1.name} ${f[0]}–${f[1]} ${n2.name} ${n2.flag}${tp.score.p ? ` (${tp.score.p[0]}–${tp.score.p[1]} ${t('yrPens')})` : ''}</div>`;
+      }
+      return `<button class="wcy-back" onclick="navBack()">← ${t('back')}</button>
+    <div class="rb-wrap"><div class="rb-stage">${svg}${balloons}${center}</div></div>
+    ${legend}${third}<div class="rb-hint">${t('rbHint')}</div>`;
+    }
+    // A balloon opens the nation's tournament run (2026 nations) or its squad
+    function rbOpenTeam(name, y) {
+      const key = WC_NAME_TO_KEY[name];
+      if (key) openWcYearByKey(key, y); else openHistSquad(y, name);
+    }
+    function openWcBracket(y) { navView(() => renderWcBracket(y)); }
+    function renderWcBracket(y) {
+      document.getElementById('modal-flag').innerHTML = emo('🏆');
+      document.getElementById('modal-title').textContent = t('yrCup') + ' ' + y;
+      document.getElementById('modal-sub').textContent = t('rbSub');
+      const body = document.getElementById('modal-body');
+      body.innerHTML = `<div class="squad-note">${t('yrLoading')}</div>`;
+      withCup(y, cup => {
+        const rounds = cup && rbRounds(cup);
+        if (!rounds) { body.innerHTML = `<div class="squad-note">${cup ? t('rbNone') : t('yrErr')}</div>`; return; }
+        body.innerHTML = emo(rbHTML(cup, rounds, y));
+      });
+    }
+
+    // ===== CROWD BACKDROP — pointillist stadium crowd behind the whole site ====
+    (function () {
+      const cv = document.getElementById('crowd-bg');
+      if (!cv || !cv.getContext) return;
+      let timer = null;
+      function paint() {
+        const w = window.innerWidth, h = window.innerHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+        const x = cv.getContext('2d');
+        x.setTransform(dpr, 0, 0, dpr, 0, 0);
+        x.fillStyle = '#0a1628'; x.fillRect(0, 0, w, h);
+        const rnd = rbRand(w * 7919 + h);
+        const colHalf = Math.min(w / 2, 760);       // content column: keep its middle quiet
+        const n = Math.round(w * h / 420);
+        for (let i = 0; i < n; i++) {
+          const px = rnd() * w, py = rnd() * h;
+          const d = Math.min(1, Math.abs(px - w / 2) / colHalf);
+          const edge = Math.max(0, (d - 0.5) / 0.5);
+          x.globalAlpha = 0.05 + 0.05 * rnd() + 0.24 * edge * edge;
+          x.fillStyle = RB_CROWD[(rnd() * RB_CROWD.length) | 0];
+          x.beginPath();
+          x.ellipse(px, py, 1.4 + rnd() * 1.4, 1.9 + rnd() * 1.8, 0, 0, 6.2832);
+          x.fill();
+        }
+        x.globalAlpha = 1;                          // fade the dots out under the header
+        const g = x.createLinearGradient(0, 0, 0, 240);
+        g.addColorStop(0, 'rgba(10,22,40,0.85)'); g.addColorStop(1, 'rgba(10,22,40,0)');
+        x.fillStyle = g; x.fillRect(0, 0, w, 240);
+      }
+      paint();
+      window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(paint, 180); });
+    })();
+
     function openWcYear(key, y, flag, name, res) {
       const meta = teamMeta(key); flag = flag || meta.flag; name = name || meta.name;
       navView(() => renderWcYear(key, y, flag, name, res));
